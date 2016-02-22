@@ -1,13 +1,13 @@
 package local.diplom.service.abstracts;
 
 /**
- * Created by david on 22.02.16.
+ * Created by david on 22.02.16 .
  */
 public interface EntityInterface {
 
-    String getId();
+    Long getId();
 
-    void setId(String id);
+    void setId(Long id);
 
     String getName();
 
