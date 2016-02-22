@@ -1,5 +1,7 @@
 package local.diplom.service.model;
 
+import local.diplom.service.abstracts.EntityInterface;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,7 +11,7 @@ import javax.persistence.Id;
  * Created  by david on 21.02.16
  */
 @Entity
-public class Product {
+public class Product implements EntityInterface {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
