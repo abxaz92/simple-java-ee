@@ -1,5 +1,6 @@
 package local.diplom.service.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import local.diplom.service.dao.ProductDAO;
 import local.diplom.service.model.Product;
 
@@ -43,6 +44,12 @@ public class ProductController {
     @POST
     public void post(Product product) throws Exception {
         productDAO.insert(product);
+    }
+
+    @PUT
+    @Path("/{id}")
+    public void put(@PathParam("id") Long id, JsonNode jsonNode) throws Exception {
+        productDAO.update(id, jsonNode);
     }
 
     @DELETE

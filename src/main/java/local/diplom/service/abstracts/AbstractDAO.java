@@ -1,9 +1,15 @@
 package local.diplom.service.abstracts;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import local.diplom.service.common.Service;
+
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.UserTransaction;
+import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -42,6 +48,26 @@ public class AbstractDAO<T extends EntityInterface> {
         utx.begin();
         em.remove(findById(id));
         utx.commit();
+    }
+
+    public void update(T entity) throws Exception {
+        utx.begin();
+        em.merge(entity);
+        utx.commit();
+    }
+
+    public T update(Long id, JsonNode json) throws Exception {
+        T old = findById(id);
+        JsonNode res = Service.merge(Service.MAPPER.convertValue(old, JsonNode.class), json);
+        T entity = null;
+        try {
+            entity = (T) Service.MAPPER.treeToValue(res, this.type);
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+
+        update(entity);
+        return entity;
     }
 
 }
