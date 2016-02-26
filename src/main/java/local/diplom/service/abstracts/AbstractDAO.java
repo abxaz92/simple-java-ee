@@ -9,11 +9,11 @@ import java.util.List;
 /**
  * Created by david on 22.02.16 .
  */
-public class AbstractDAO<T> {
+public class AbstractDAO<T extends EntityInterface> {
     private Class type;
 
     @PersistenceContext
-    private EntityManager em;
+    protected EntityManager em;
 
     @Resource
     private UserTransaction utx;

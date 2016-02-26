@@ -15,12 +15,13 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
 
 /**
  * Created  by david on 21.02.16
  */
 
-@Path("/test")
+@Path("/product")
 @Produces(MediaType.APPLICATION_JSON)
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class ProductController {
@@ -30,8 +31,13 @@ public class ProductController {
 
     @GET
     @Path("/{id}")
-    public Product test(@PathParam("id") String id) {
+    public Product getById(@PathParam("id") String id) {
         return productDAO.findById(id);
+    }
+
+    @GET
+    public List<Product> getAll() {
+        return productDAO.findAll();
     }
 
     @POST
