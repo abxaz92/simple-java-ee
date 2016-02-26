@@ -7,7 +7,7 @@ import javax.transaction.UserTransaction;
 import java.util.List;
 
 /**
- * Created by david on 22.02.16 .
+ * Creator david on 22.02.16 .
  */
 public class AbstractDAO<T extends EntityInterface> {
     private Class type;
@@ -22,22 +22,26 @@ public class AbstractDAO<T extends EntityInterface> {
         this.type = type;
     }
 
-    public T findById(String id) {
+    public T findById(Long id) {
         return (T) em.find(type, id);
     }
 
-    /*public List<T> findAll() {
+    public void insert(T entity) throws Exception {
+        utx.begin();
+        em.persist(entity);
+        utx.commit();
+    }
 
-    }*/
+    public void insert(List<T> entities) throws Exception {
+        utx.begin();
+        em.persist(entities);
+        utx.commit();
+    }
 
-    public void insert(T entity) {
-        try {
-            utx.begin();
-            em.persist(entity); //em.merge(u); for updates
-            utx.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void deleteById(Long id) throws Exception {
+        utx.begin();
+        em.remove(findById(id));
+        utx.commit();
     }
 
 }

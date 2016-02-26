@@ -31,7 +31,7 @@ public class ProductController {
 
     @GET
     @Path("/{id}")
-    public Product getById(@PathParam("id") String id) {
+    public Product getById(@PathParam("id") Long id) {
         return productDAO.findById(id);
     }
 
@@ -41,7 +41,13 @@ public class ProductController {
     }
 
     @POST
-    public void post(Product product) {
+    public void post(Product product) throws Exception {
         productDAO.insert(product);
+    }
+
+    @DELETE
+    @Path("/{id}")
+    public void deleteById(@PathParam("id") Long id) throws Exception {
+        productDAO.deleteById(id);
     }
 }

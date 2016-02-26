@@ -18,21 +18,27 @@ import java.util.List;
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class ProductCategoryController {
     @Inject
-    private ProductCategoryDAO ProductCategoryDAO;
+    private ProductCategoryDAO productCategoryDAO;
 
     @GET
     @Path("/{id}")
-    public ProductCategory getById(@PathParam("id") String id) {
-        return ProductCategoryDAO.findById(id);
+    public ProductCategory getById(@PathParam("id") Long id) {
+        return productCategoryDAO.findById(id);
     }
 
     @GET
     public List<ProductCategory> getAll() {
-        return ProductCategoryDAO.findAll();
+        return productCategoryDAO.findAll();
     }
 
     @POST
-    public void post(ProductCategory ProductCategory) {
-        ProductCategoryDAO.insert(ProductCategory);
+    public void post(ProductCategory ProductCategory) throws Exception {
+        productCategoryDAO.insert(ProductCategory);
+    }
+
+    @DELETE
+    @Path("/{id}")
+    public void deleteById(@PathParam("id") Long id) throws Exception {
+        productCategoryDAO.deleteById(id);
     }
 }
