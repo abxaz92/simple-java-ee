@@ -12,6 +12,7 @@ import javax.persistence.*;
 public class ProductCategory implements EntityInterface {
     private Long id;
     private String name;
+    private double markup;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,5 +30,13 @@ public class ProductCategory implements EntityInterface {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public double getMarkup() {
+        return markup;
+    }
+
+    public void setMarkup(double markup) {
+        this.markup = markup;
     }
 }

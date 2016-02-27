@@ -1,7 +1,6 @@
 package local.diplom.service.abstracts;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import local.diplom.service.common.Service;
 
 import javax.annotation.Resource;
@@ -9,18 +8,15 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.UserTransaction;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 
 /**
  * Creator david on 22.02.16 .
  */
 public class AbstractDAO<T extends EntityInterface> {
-    private Class type;
-
     @PersistenceContext
     protected EntityManager em;
-
+    private Class type;
     @Resource
     private UserTransaction utx;
 
@@ -33,27 +29,32 @@ public class AbstractDAO<T extends EntityInterface> {
     }
 
     public void insert(T entity) throws Exception {
-        utx.begin();
-        em.persist(entity);
-        utx.commit();
+        persist(entity);
     }
 
     public void insert(List<T> entities) throws Exception {
-        utx.begin();
-        em.persist(entities);
-        utx.commit();
+        persist(entities);
     }
 
     public void deleteById(Long id) throws Exception {
-        utx.begin();
-        em.remove(findById(id));
-        utx.commit();
+        try {
+            utx.begin();
+            em.remove(findById(id));
+            utx.commit();
+        } catch (Exception e) {
+            utx.rollback();
+        }
+
     }
 
     public void update(T entity) throws Exception {
-        utx.begin();
-        em.merge(entity);
-        utx.commit();
+        try {
+            utx.begin();
+            em.merge(entity);
+            utx.commit();
+        } catch (Exception e) {
+            utx.rollback();
+        }
     }
 
     public T update(Long id, JsonNode json) throws Exception {
@@ -65,9 +66,18 @@ public class AbstractDAO<T extends EntityInterface> {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
-
         update(entity);
         return entity;
+    }
+
+    private void persist(Object object) throws Exception {
+        try {
+            utx.begin();
+            em.persist(object);
+            utx.commit();
+        } catch (Exception e) {
+            utx.rollback();
+        }
     }
 
 }
