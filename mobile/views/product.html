@@ -1,0 +1,37 @@
+<div id="catalog" class="catalog">
+</div>
+
+<script id="productTmpl" type="text/x-jquery-tmpl">
+	<div class="tpl">
+		<div class="images">
+			<img  class="front" src="${photo}">
+		</div>
+		<h2 class="name">${name}</h2>
+		<div class="more_info m_pos">
+			{{if $item.data.cores && $item.data.cores != 0}}
+				<p>Количество ядер: ${cores}</p>
+			{{/if}}
+			{{if $item.data.memory && $item.data.memory != 0}}
+				<p>Память: ${memory}Мб</p>
+			{{/if}}
+			{{if $item.data.weight && $item.data.weight != 0}}
+				<p>Вес: ${weight} гр</p>
+			{{/if}}
+			{{if $item.data.os && $item.data.os != ""}}
+				<p>ОС: ${os}</p>
+			{{/if}}
+			{{if $item.data.resolution && $item.data.resolution != ""}}
+				<p>Разрешение: ${resolution}</p>
+			{{/if}}
+		</div>
+		<button class="buy pos buybtn" onclick="currPhone=this.parentNode; window.location.href = '#!buy';">Купить</button>
+	</div>
+</script>
+
+<script defer="defer">
+	getJson("/service/rest/product/", function(e){
+		console.log(e);
+		drawContent(e, "productTmpl", "catalog");	
+	})
+	
+</script>
