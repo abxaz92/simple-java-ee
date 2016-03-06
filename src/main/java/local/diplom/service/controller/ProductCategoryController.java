@@ -1,7 +1,7 @@
 package local.diplom.service.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import local.diplom.service.dao.ProductCategoryDAO;
+import local.diplom.service.dao.ProductCategoryService;
 import local.diplom.service.model.ProductCategory;
 
 import javax.ejb.TransactionManagement;
@@ -19,34 +19,34 @@ import java.util.List;
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class ProductCategoryController {
     @Inject
-    private ProductCategoryDAO productCategoryDAO;
+    private ProductCategoryService productCategoryService;
 
     @GET
     @Path("/{id}")
     public ProductCategory getById(@PathParam("id") Long id) {
-        return productCategoryDAO.findById(id);
+        return productCategoryService.findById(id);
     }
 
     @GET
     public List<ProductCategory> getAll() {
-        return productCategoryDAO.findAll();
+        return productCategoryService.findAll();
     }
 
     @POST
     public void post(ProductCategory ProductCategory) throws Exception {
-        productCategoryDAO.insert(ProductCategory);
+        productCategoryService.insert(ProductCategory);
     }
 
     @PUT
     @Path("/{id}")
     public void put(@PathParam("id") Long id, JsonNode jsonNode) throws Exception {
-        productCategoryDAO.update(id, jsonNode);
+        productCategoryService.update(id, jsonNode);
     }
 
 
     @DELETE
     @Path("/{id}")
     public void deleteById(@PathParam("id") Long id) throws Exception {
-        productCategoryDAO.deleteById(id);
+        productCategoryService.deleteById(id);
     }
 }

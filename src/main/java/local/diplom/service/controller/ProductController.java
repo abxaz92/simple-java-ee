@@ -1,19 +1,12 @@
 package local.diplom.service.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import local.diplom.service.dao.ProductDAO;
+import local.diplom.service.dao.ProductService;
 import local.diplom.service.model.Product;
 
-import javax.annotation.Resource;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceContext;
-import javax.transaction.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
@@ -28,33 +21,39 @@ import java.util.List;
 public class ProductController {
 
     @Inject
-    private ProductDAO productDAO;
+    private ProductService productService;
 
     @GET
     @Path("/{id}")
     public Product getById(@PathParam("id") Long id) {
-        return productDAO.findById(id);
+        return productService.findById(id);
     }
 
     @GET
     public List<Product> getAll() {
-        return productDAO.findAll();
+        return productService.findAll();
     }
 
     @POST
     public void post(Product product) throws Exception {
-        productDAO.insert(product);
+        productService.insert(product);
+    }
+
+    @POST
+    @Path("/sell/{productId}")
+    public void sell(@PathParam("productId") Long productId) throws Exception {
+        productService.sell(productId);
     }
 
     @PUT
     @Path("/{id}")
     public void put(@PathParam("id") Long id, JsonNode jsonNode) throws Exception {
-        productDAO.update(id, jsonNode);
+        productService.update(id, jsonNode);
     }
 
     @DELETE
     @Path("/{id}")
     public void deleteById(@PathParam("id") Long id) throws Exception {
-        productDAO.deleteById(id);
+        productService.deleteById(id);
     }
 }

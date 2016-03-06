@@ -1,6 +1,7 @@
 package local.diplom.service.abstracts;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import local.diplom.service.common.ExceptionFactory;
 import local.diplom.service.common.Service;
 
 import javax.annotation.Resource;
@@ -13,12 +14,12 @@ import java.util.List;
 /**
  * Creator david on 22.02.16 .
  */
-public class AbstractDAO<T extends EntityInterface> {
+public class AbstractDAO<T extends EntityInterface> extends ExceptionFactory {
     @PersistenceContext
     protected EntityManager em;
-    private Class type;
     @Resource
-    private UserTransaction utx;
+    protected UserTransaction utx;
+    private Class type;
 
     public AbstractDAO(Class type) {
         this.type = type;

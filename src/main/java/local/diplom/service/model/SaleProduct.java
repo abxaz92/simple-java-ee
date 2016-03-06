@@ -9,7 +9,7 @@ import javax.persistence.*;
  */
 @Entity
 @NamedQuery(name = "SaleProduct.getAll", query = "SELECT c from SaleProduct c")
-@NamedNativeQuery(name = "complex",
+@NamedNativeQuery(name = "SaleProduct.complex",
         query = "select s.id, s.productId, s.cost, p.name AS name from saleproduct s, product p where s.productId = p.id",
         resultClass = SaleProduct.class)
 public class SaleProduct implements EntityInterface {

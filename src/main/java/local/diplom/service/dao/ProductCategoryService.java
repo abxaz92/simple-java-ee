@@ -12,9 +12,9 @@ import java.util.List;
  * Created by david on 27.02.16.
  */
 @ApplicationScoped
-public class ProductCategoryDAO extends AbstractDAO<ProductCategory> {
+public class ProductCategoryService extends AbstractDAO<ProductCategory> {
 
-    public ProductCategoryDAO() {
+    public ProductCategoryService() {
         super(ProductCategory.class);
     }
 

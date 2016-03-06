@@ -1,6 +1,6 @@
 package local.diplom.service.controller;
 
-import local.diplom.service.dao.SaleProductDAO;
+import local.diplom.service.dao.SaleProductService;
 import local.diplom.service.model.SaleProduct;
 
 import javax.ejb.TransactionManagement;
@@ -19,22 +19,22 @@ import java.util.List;
 public class SaleProductController {
 
     @Inject
-    private SaleProductDAO saleProductDAO;
+    private SaleProductService saleProductService;
 
     @GET
     @Path("/{id}")
     public SaleProduct getById(@PathParam("id") Long id) {
-        return saleProductDAO.findById(id);
+        return saleProductService.findById(id);
     }
 
     @GET
     public List<SaleProduct> getAll() {
-        return saleProductDAO.findAll();
+        return saleProductService.findAll();
     }
 
     @POST
     public void post(SaleProduct saleProduct) throws Exception {
-        saleProductDAO.insert(saleProduct);
+        saleProductService.insert(saleProduct);
     }
 
 }

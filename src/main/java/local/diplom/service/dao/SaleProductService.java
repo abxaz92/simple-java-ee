@@ -11,13 +11,13 @@ import java.util.List;
  * Created  by david on 06.03.16
  */
 @ApplicationScoped
-public class SaleProductDAO extends AbstractDAO<SaleProduct> {
-    public SaleProductDAO() {
+public class SaleProductService extends AbstractDAO<SaleProduct> {
+    public SaleProductService() {
         super(SaleProduct.class);
     }
 
     public List<SaleProduct> findAll() {
-        Query query = em.createNamedQuery("complex", SaleProduct.class);
+        Query query = em.createNamedQuery("SaleProduct.complex", SaleProduct.class);
         return query.getResultList();
     }
 }
