@@ -15,6 +15,8 @@ public class Product implements EntityInterface {
     private String name;
     private String brand;
     private ProductCategory category;
+    private int amount;
+    private double cost;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -49,5 +51,21 @@ public class Product implements EntityInterface {
 
     public void setCategory(ProductCategory category) {
         this.category = category;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public double getCost() {
+        return cost;
+    }
+
+    public void setCost(double cost) {
+        this.cost = cost;
     }
 }
