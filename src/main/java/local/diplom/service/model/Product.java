@@ -8,7 +8,11 @@ import javax.persistence.*;
  * Created  by david on 21.02.16
  */
 @Entity
-@NamedQuery(name = "Product.getAll", query = "SELECT c from Product c")
+@NamedQueries({
+        @NamedQuery(name = "Product.getAll", query = "SELECT c from Product c"),
+        @NamedQuery(name = "Product.getByCategory", query = "select c from Product c where c.category.id = :categoryId")
+})
+
 public class Product implements EntityInterface {
 
     private Long id;

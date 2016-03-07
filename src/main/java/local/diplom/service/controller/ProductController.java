@@ -30,8 +30,10 @@ public class ProductController {
     }
 
     @GET
-    public List<Product> getAll() {
-        return productService.findAll();
+    public List<Product> getAll(@QueryParam("skip") Integer skip,
+                                @QueryParam("limit") Integer limit,
+                                @QueryParam("categoryId") Long categoryId) {
+        return productService.findAll(skip, limit, categoryId);
     }
 
     @POST

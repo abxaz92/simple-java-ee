@@ -40,7 +40,7 @@
 
     </dependencies>
     <build>
-        <finalName>service</finalName>
+        <finalName>ROOT</finalName>
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -71,7 +71,7 @@
                             <hostname>localhost</hostname>
                             <username>taxi</username>
                             <password>Q4862513</password>
-                            <name>service.war</name>
+                            <name>ROOT.war</name>
                         </configuration>
                     </plugin>
                 </plugins>
