@@ -47,7 +47,7 @@ public class ProductService extends AbstractDAO<Product> {
             SaleProduct saleProduct = new SaleProduct();
             saleProduct.setProductId(product.getId());
             if (product.getCategory().getMarkup() != 0) {
-                saleProduct.setCost(product.getCost() + (product.getCost() / product.getCategory().getMarkup()));
+                saleProduct.setCost(product.getCost() + (product.getCost() * product.getCategory().getMarkup() / 100));
             } else {
                 saleProduct.setCost(product.getCost());
             }
