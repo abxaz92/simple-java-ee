@@ -18,4 +18,44 @@
         <welcome-file>/index.html</welcome-file>
     </welcome-file-list>
 
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <realm-name>example-jaas-realm</realm-name>
+        <form-login-config>
+            <form-login-page>/loginform.html</form-login-page>
+            <form-error-page>/loginerror.html</form-error-page>
+        </form-login-config>
+    </login-config>
+
+    <security-constraint>
+        <display-name>pages_auth</display-name>
+
+        <web-resource-collection>
+            <web-resource-name>pages_auth</web-resource-name>
+            <url-pattern>/rest/secure/*</url-pattern>
+        </web-resource-collection>
+
+        <auth-constraint>
+            <role-name>ADMIN</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <display-name>UnSecuredPages</display-name>
+
+        <web-resource-collection>
+            <web-resource-name>login-required</web-resource-name>
+            <url-pattern>/rest/login</url-pattern>
+        </web-resource-collection>
+
+        <web-resource-collection>
+            <web-resource-name>login-required</web-resource-name>
+            <url-pattern>/front/app/css/main.css</url-pattern>
+        </web-resource-collection>
+    </security-constraint>
+
+    <security-role>
+        <role-name>ADMIN</role-name>
+    </security-role>
+
 </web-app>
