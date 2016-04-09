@@ -6,6 +6,7 @@ import local.diplom.service.model.SaleProduct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.inject.Inject;
@@ -19,6 +20,7 @@ import java.util.List;
 @Path("/secure/sale")
 @Produces(MediaType.APPLICATION_JSON)
 @TransactionManagement(TransactionManagementType.CONTAINER)
+@RolesAllowed({"ADMIN"})
 public class SaleProductController {
     private static final Logger LOG = LoggerFactory.getLogger(SaleProductController.class);
 
@@ -30,6 +32,7 @@ public class SaleProductController {
 
     @GET
     @Path("/{id}")
+    @RolesAllowed({"SELLER"})
     public SaleProduct getById(@PathParam("id") Long id) {
         return saleProductService.findById(id);
     }
