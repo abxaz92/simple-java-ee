@@ -1,6 +1,6 @@
 package local.diplom.service.common;
 
-import local.diplom.service.dao.UsersService;
+import local.diplom.service.service.UsersService;
 import local.diplom.service.model.User;
 
 import javax.annotation.Resource;

@@ -1,7 +1,7 @@
 package local.diplom.service.controller;
 
 import local.diplom.service.common.ContextService;
-import local.diplom.service.dao.SaleProductService;
+import local.diplom.service.service.SaleProductService;
 import local.diplom.service.model.SaleProduct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

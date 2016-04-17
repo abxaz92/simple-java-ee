@@ -1,7 +1,6 @@
-package local.diplom.service.dao;
+package local.diplom.service.service;
 
 import local.diplom.service.abstracts.AbstractDAO;
-import local.diplom.service.model.Product;
 import local.diplom.service.model.ProductCategory;
 
 import javax.enterprise.context.ApplicationScoped;

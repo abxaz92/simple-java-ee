@@ -1,4 +1,4 @@
-package local.diplom.service.dao;
+package local.diplom.service.service;
 
 import local.diplom.service.abstracts.AbstractDAO;
 import local.diplom.service.model.Product;

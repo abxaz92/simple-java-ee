@@ -1,7 +1,7 @@
 package local.diplom.service.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import local.diplom.service.dao.ProductService;
+import local.diplom.service.service.ProductService;
 import local.diplom.service.model.Product;
 
 import javax.ejb.TransactionManagement;

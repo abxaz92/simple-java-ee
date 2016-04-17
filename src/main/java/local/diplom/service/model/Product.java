@@ -23,6 +23,7 @@ public class Product implements EntityInterface {
     private double cost;
     private String image;
     private String description;
+    private Vendor vendor;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -89,5 +90,14 @@ public class Product implements EntityInterface {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    public Vendor getVendor() {
+        return vendor;
+    }
+
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
     }
 }

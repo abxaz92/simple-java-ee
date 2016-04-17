@@ -2,7 +2,7 @@ package local.diplom.service.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import local.diplom.service.common.ContextService;
-import local.diplom.service.dao.UsersService;
+import local.diplom.service.service.UsersService;
 import local.diplom.service.model.User;
 
 import javax.annotation.security.RolesAllowed;

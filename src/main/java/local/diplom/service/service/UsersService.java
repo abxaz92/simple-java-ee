@@ -1,4 +1,4 @@
-package local.diplom.service.dao;
+package local.diplom.service.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import local.diplom.service.common.Service;
