@@ -21,6 +21,8 @@ public class Product implements EntityInterface {
     private ProductCategory category;
     private int amount;
     private double cost;
+    private String image;
+    private String description;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -71,5 +73,21 @@ public class Product implements EntityInterface {
 
     public void setCost(double cost) {
         this.cost = cost;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
