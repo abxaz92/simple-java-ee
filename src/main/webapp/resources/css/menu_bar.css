@@ -149,7 +149,7 @@ body{
 
 .fancyNav a.homeIcon{
 	background:url('../img/home.png') no-repeat center center;
-	background-size: 60px;
+	background-size: 25px;
 	display: block;
 	overflow: hidden;
 	padding-left: 12px;
