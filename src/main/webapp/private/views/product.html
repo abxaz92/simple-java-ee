@@ -1,0 +1,75 @@
+<div id='jqxWidget' style="font-size: 13px; font-family: Verdana; float: left;">
+    <div id="jqxgrid">
+    </div>
+</div>
+<script defer="defer">
+    var url = "http://loc/rest/product";
+    var source =
+    {
+        datatype: "json",
+        datafields: [
+            {name: 'id', type: 'int'},
+            {name: 'name', type: 'string'},
+            {name: 'cost', type: 'string'},
+            {name: 'brand', type: 'string'},
+            {name: 'amount', type: 'string'},
+            {name: 'categoryname', type: 'string', map: "category>name"}
+        ],
+        id: 'id',
+        url: url
+    };
+
+    var dataAdapter = new $.jqx.dataAdapter(source, {
+        downloadComplete: function (data, status, xhr) {
+        },
+        loadComplete: function (data) {
+        },
+        loadError: function (xhr, status, error) {
+        }
+    });
+    $("#jqxgrid").jqxGrid({
+        width: 740,
+        height: 500,
+        source: dataAdapter,
+        sortable: true,
+        altrows: true,
+        columns: [
+            {
+                text: 'Id',
+                datafield: 'id',
+                width: 50
+            },
+            {
+                text: 'Название',
+                datafield: 'name',
+                cellsalign: 'left',
+                align: 'left',
+                width: 200
+            },
+            {
+                text: 'Цена',
+                datafield: 'cost',
+                align: 'right',
+                cellsalign: 'right',
+                width: 100
+            },
+            {
+                text: 'Производитель', datafield: 'brand',
+                cellsalign: 'left',
+                align: 'left',
+                width: 200
+            }, {
+                text: 'Количество',
+                datafield: 'amount',
+                align: 'right',
+                cellsalign: 'right',
+                width: 70
+            }, {
+                text: 'Категория',
+                datafield: 'categoryname',
+                cellsalign: 'right',
+                width: 100
+            }
+        ]
+    });
+</script>

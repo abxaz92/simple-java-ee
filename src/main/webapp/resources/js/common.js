@@ -1,6 +1,6 @@
 function main() {
-    $("#menu").load("/menu.html");
-    $("#footer").load("/footer.html");
+    $("#menu").load("menu.html");
+    $("#footer").load("footer.html");
     route();
     $(window).bind('hashchange', function () {
         route();
@@ -19,7 +19,7 @@ function route() {
 function loadToContent(page) {
     var content = $("#content");
     content.empty();
-    content.load("/" + page + ".html");
+    content.load(page + ".html");
 }
 function drawContent(phones, tpl, to) {
     $('#' + tpl).tmpl(phones).appendTo('#' + to);
