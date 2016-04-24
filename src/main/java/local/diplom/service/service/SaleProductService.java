@@ -13,7 +13,7 @@ import java.util.List;
 @ApplicationScoped
 public class SaleProductService extends AbstractDAO<SaleProduct> {
     public SaleProductService() {
-        super(SaleProduct.class);
+        super("SaleProduct", SaleProduct.class);
     }
 
     public List<SaleProduct> findAll() {

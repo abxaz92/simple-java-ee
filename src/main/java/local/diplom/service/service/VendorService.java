@@ -14,7 +14,7 @@ import java.util.List;
 public class VendorService extends AbstractDAO<Vendor> {
 
     public VendorService() {
-        super(Vendor.class);
+        super("Vendor", Vendor.class);
     }
 
     public List<Vendor> findAll() {

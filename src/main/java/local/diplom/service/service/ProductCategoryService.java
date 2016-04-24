@@ -14,7 +14,7 @@ import java.util.List;
 public class ProductCategoryService extends AbstractDAO<ProductCategory> {
 
     public ProductCategoryService() {
-        super(ProductCategory.class);
+        super("ProductCategory", ProductCategory.class);
     }
 
     public List<ProductCategory> findAll() {

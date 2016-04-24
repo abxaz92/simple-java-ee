@@ -3,10 +3,13 @@ package local.diplom.service.abstracts;
 import com.fasterxml.jackson.databind.JsonNode;
 import local.diplom.service.common.ExceptionFactory;
 import local.diplom.service.common.Service;
+import local.diplom.service.model.Product;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.transaction.UserTransaction;
 import java.io.IOException;
 import java.util.List;
@@ -20,9 +23,11 @@ public class AbstractDAO<T extends EntityInterface> extends ExceptionFactory {
     @Resource
     protected UserTransaction utx;
     private Class type;
+    protected String tablename;
 
-    public AbstractDAO(Class type) {
+    public AbstractDAO(String tablename, Class type) {
         this.type = type;
+        this.tablename = tablename;
     }
 
     public T findById(Long id) {
@@ -47,6 +52,22 @@ public class AbstractDAO<T extends EntityInterface> extends ExceptionFactory {
         }
 
     }
+
+    public Object findAll(Integer skip, Integer limit, String count) {
+        if (count == null) {
+            TypedQuery<T> query = em.createNamedQuery(tablename + ".getAll", type);
+            if (skip != null)
+                query.setFirstResult(skip);
+            if (limit != null)
+                query.setMaxResults(limit);
+            return query.getResultList();
+        } else {
+            String sql = "SELECT COUNT(d) FROM " + tablename + " d";
+            Query query = em.createQuery(sql);
+            return query.getSingleResult();
+        }
+    }
+
 
     public void update(T entity) throws Exception {
         try {
@@ -80,5 +101,4 @@ public class AbstractDAO<T extends EntityInterface> extends ExceptionFactory {
             utx.rollback();
         }
     }
-
 }

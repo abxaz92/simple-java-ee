@@ -16,22 +16,7 @@ import java.util.List;
 @ApplicationScoped
 public class ProductService extends AbstractDAO<Product> {
     public ProductService() {
-        super(Product.class);
-    }
-
-    public List<Product> findAll(Integer skip, Integer limit, Long categoryId) {
-        TypedQuery<Product> query;
-        if (categoryId == null) {
-            query = em.createNamedQuery("Product.getAll", Product.class);
-        } else {
-            query = em.createNamedQuery("Product.getByCategory", Product.class);
-            query.setParameter("categoryId", categoryId);
-        }
-        if (skip != null)
-            query.setFirstResult(skip);
-        if (limit != null)
-            query.setMaxResults(limit);
-        return query.getResultList();
+        super("Product", Product.class);
     }
 
     public void sell(long productId) throws Exception {
