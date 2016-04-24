@@ -15,9 +15,4 @@ public class SaleProductService extends AbstractDAO<SaleProduct> {
     public SaleProductService() {
         super("SaleProduct", SaleProduct.class);
     }
-
-    public List<SaleProduct> findAll() {
-        Query query = em.createNamedQuery("SaleProduct.complex", SaleProduct.class);
-        return query.getResultList();
-    }
 }

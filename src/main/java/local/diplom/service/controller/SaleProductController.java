@@ -38,8 +38,10 @@ public class SaleProductController {
     }
 
     @GET
-    public List<SaleProduct> getAll() {
-        return saleProductService.findAll();
+    public Object getAll(@QueryParam("skip") Integer skip,
+                         @QueryParam("limit") Integer limit,
+                         @QueryParam("count") String count) {
+        return saleProductService.findAll(skip, limit, count);
     }
 
     @POST
