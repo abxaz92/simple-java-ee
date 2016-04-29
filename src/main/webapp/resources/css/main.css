@@ -139,7 +139,6 @@ textarea {
     margin-right: -10px;
 }
 
-
 .tpl {
     border: dashed;
     border-color: #E4E4E4;
@@ -311,10 +310,14 @@ textarea {
     width: 500px;
 }
 
-.form {
+.form label {
+    width: 40%;
     display: inline-block;
-    position: absolute;
-    top: 300px;
+    margin: 2% 5% 3% 5%;
+}
+
+.form .toolbar {
+    margin: 5% 0% 0% 20%;
 }
 
 .inp_content {

@@ -37,8 +37,9 @@ public class ProductController {
     }
 
     @POST
-    public void post(Product product) throws Exception {
+    public Product post(Product product) throws Exception {
         productService.insert(product);
+        return product;
     }
 
     @POST

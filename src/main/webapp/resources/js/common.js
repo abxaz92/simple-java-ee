@@ -6,6 +6,9 @@ function main() {
         route();
     });
 }
+
+host = "http://" + location.hostname + ":" + 8080;
+
 function route() {
     var url = document.URL;
     if (url.indexOf('#!') > 0) {
@@ -29,6 +32,28 @@ function getJson(url, callback) {
     $.ajax({
         url: url,
         type: 'GET',
+        success: callback
+    });
+}
+
+function post(url, data, callback) {
+    $.ajax({
+        url: host + url,
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: callback
+    });
+}
+
+function put(url, data, callback) {
+    $.ajax({
+        url: host + url,
+        type: 'PUT',
+        data: JSON.stringify(data),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
         success: callback
     });
 }
