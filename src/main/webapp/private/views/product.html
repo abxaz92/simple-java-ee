@@ -7,7 +7,6 @@
     <div>Продукт</div>
     <div>
         <div><label>Название</label> <input type="text" id="name"/></div>
-        <div><label>Производитель</label> <input type="text" id="vendor"/></div>
         <div><label>Категория</label>
             <div id="category" style="width: 150px;float: right;height: 25px;margin: 0px 7% 0px 1px;"/>
         </div>
@@ -15,6 +14,9 @@
         <div><label>Стоимость</label> <input type="text" id="cost"/></div>
         <div><label>Изображение</label> <input type="text" id="image"/></div>
         <div><label>Описание</label> <input type="text" id="description"/></div>
+        <div><label>Производитель</label>
+            <div id="vendor" style="width: 150px;float: right;height: 25px;margin: 0px 7% 0px 1px;"/>
+        </div>
         <div class="toolbar">
             <span>
                 <input type="button" value="Сохранить" id='save'/>
@@ -40,20 +42,35 @@
     $('#cost').jqxInput({height: 25, width: 150, minLength: 1});
     $('#image').jqxInput({height: 25, width: 150, minLength: 1});
     $('#description').jqxInput({height: 25, width: 150, minLength: 1});
-    $('#vendor').jqxInput({height: 25, width: 150, minLength: 1});
 
-    var dataAdapter = new $.jqx.dataAdapter({
-        datatype: "json",
-        datafields: [
-            {name: 'name'},
-            {name: 'id'}
-        ],
-        url: host + "/rest/productcategory",
-        async: true
-    });
     $("#category").jqxDropDownList({
         selectedIndex: 0,
-        source: dataAdapter,
+        source: new $.jqx.dataAdapter({
+            datatype: "json",
+            datafields: [
+                {name: 'name'},
+                {name: 'id'}
+            ],
+            url: host + "/rest/productcategory",
+            async: true
+        }),
+        displayMember: "name",
+        valueMember: "id",
+        width: 150,
+        height: 25
+    });
+
+    $("#vendor").jqxDropDownList({
+        selectedIndex: 0,
+        source: new $.jqx.dataAdapter({
+            datatype: "json",
+            datafields: [
+                {name: 'name'},
+                {name: 'id'}
+            ],
+            url: host + "/rest/vendor",
+            async: true
+        }),
         displayMember: "name",
         valueMember: "id",
         width: 150,
@@ -68,7 +85,10 @@
 
     $("#remove").jqxButton({width: '40', height: '30'});
     $("#remove").on('click', function () {
-        alert("bbbbbb");
+        var row = $('#jqxgrid').jqxGrid('getrowdata', $('#jqxgrid').jqxGrid('getselectedrowindex'));
+        Controller.del("/rest/product/" + row.id, null, function () {
+            $('#jqxgrid').jqxGrid('updatebounddata');
+        });
     })
 
     $("#window").jqxWindow({width: 370, height: 390, isModal: true, autoOpen: false});
@@ -85,15 +105,17 @@
         var obj = {
             name: $('#name').val(),
             brand: $('#brand').val(),
-            category: $('#category').val(),
+            category: {id: $('#category').val()},
             amount: $('#amount').val(),
             cost: $('#cost').val(),
             image: $('#image').val(),
             description: $('#description').val(),
-            vendor: $('#vendor').val()
+            vendor: {id: $('#vendor').val()}
         };
-        console.log(obj);
-        Controller.post("/rest/product");
+        Controller.post("/rest/product", obj, function () {
+            $('#jqxgrid').jqxGrid('updatebounddata');
+            $("#window").jqxWindow("close");
+        });
     })
     $("#cancel").jqxButton({width: '90px', height: '30'});
     $("#cancel").on('click', function () {

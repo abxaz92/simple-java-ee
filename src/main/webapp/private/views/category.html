@@ -1,0 +1,103 @@
+<div>
+    <span><input type="button" value="+" id="add"/></span>
+    <span><input type="button" value="-" id="remove"/></span>
+</div>
+
+<div id="window" class="form">
+    <div>Продукт</div>
+    <div>
+        <div><label>Название</label> <input type="text" id="name"/></div>
+        <div class="toolbar">
+            <span>
+                <input type="button" value="Сохранить" id='save'/>
+            </span>
+            <span>
+                <input type="button" value="Отменить" id='cancel'/>
+            </span>
+        </div>
+    </div>
+</div>
+
+
+<div id='jqxWidget' style="font-size: 13px;font-family: Verdana;margin: 0 -370px;position: relative;left: 50%;">
+    <div id="jqxgrid">
+    </div>
+</div>
+<script defer="defer">
+    var url = host + "/rest/productcategory";
+
+
+    $('#name').jqxInput({height: 25, width: 150, minLength: 1});
+
+    $("#add").jqxButton({width: '40', height: '30'});
+    $("#add").on('click', function () {
+        $("#window").jqxWindow("open");
+    })
+
+    $("#remove").jqxButton({width: '40', height: '30'});
+    $("#remove").on('click', function () {
+        var row = $('#jqxgrid').jqxGrid('getrowdata', $('#jqxgrid').jqxGrid('getselectedrowindex'));
+        Controller.del("/rest/productcategory/" + row.id, null, function () {
+            $('#jqxgrid').jqxGrid('updatebounddata');
+        });
+    })
+
+    $("#window").jqxWindow({width: 370, height: 390, isModal: true, autoOpen: false});
+    $("#window").on('close', function () {
+        $('#name').jqxInput("clear");
+    });
+    $("#save").jqxButton({width: '90px', height: '30'});
+    $("#save").on('click', function () {
+        var obj = {
+            name: $('#name').val()
+        };
+        Controller.post("/rest/productcategory", obj, function () {
+            $('#jqxgrid').jqxGrid('updatebounddata');
+            $("#window").jqxWindow("close");
+        });
+    })
+    $("#cancel").jqxButton({width: '90px', height: '30'});
+    $("#cancel").on('click', function () {
+        $("#window").jqxWindow("close");
+    })
+
+    var source = {
+        datatype: "json",
+        datafields: [
+            {name: 'id', type: 'int'},
+            {name: 'name', type: 'string'}
+        ],
+        id: 'id',
+        url: url
+    };
+
+    var dataAdapter = new $.jqx.dataAdapter(source, {
+        downloadComplete: function (data, status, xhr) {
+        },
+        loadComplete: function (data) {
+        },
+        loadError: function (xhr, status, error) {
+        }
+    });
+    $("#jqxgrid").jqxGrid({
+        width: 740,
+        height: 500,
+        source: dataAdapter,
+        sortable: true,
+        altrows: true,
+        columns: [
+            {
+                text: 'Id',
+                datafield: 'id',
+                width: 50
+            },
+            {
+                text: 'Название',
+                datafield: 'name',
+                cellsalign: 'left',
+                align: 'left',
+                width: 200
+            }
+        ]
+    });
+</script>
