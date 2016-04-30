@@ -8,7 +8,9 @@
     <div>
         <div><label>Название</label> <input type="text" id="name"/></div>
         <div><label>Производитель</label> <input type="text" id="vendor"/></div>
-        <div><label>Категория</label> <input type="text" id="category"/></div>
+        <div><label>Категория</label>
+            <div id="category" style="width: 150px;float: right;height: 25px;margin: 0px 7% 0px 1px;"/>
+        </div>
         <div><label>Количество</label> <input type="text" id="amount"/></div>
         <div><label>Стоимость</label> <input type="text" id="cost"/></div>
         <div><label>Изображение</label> <input type="text" id="image"/></div>
@@ -32,9 +34,36 @@
 <script defer="defer">
     var url = host + "/rest/product";
 
+
+    $('#name').jqxInput({height: 25, width: 150, minLength: 1});
+    $('#amount').jqxInput({height: 25, width: 150, minLength: 1});
+    $('#cost').jqxInput({height: 25, width: 150, minLength: 1});
+    $('#image').jqxInput({height: 25, width: 150, minLength: 1});
+    $('#description').jqxInput({height: 25, width: 150, minLength: 1});
+    $('#vendor').jqxInput({height: 25, width: 150, minLength: 1});
+
+    var dataAdapter = new $.jqx.dataAdapter({
+        datatype: "json",
+        datafields: [
+            {name: 'name'},
+            {name: 'id'}
+        ],
+        url: host + "/rest/productcategory",
+        async: true
+    });
+    $("#category").jqxDropDownList({
+        selectedIndex: 0,
+        source: dataAdapter,
+        displayMember: "name",
+        valueMember: "id",
+        width: 150,
+        height: 25
+    });
+
     $("#add").jqxButton({width: '40', height: '30'});
     $("#add").on('click', function () {
         $("#window").jqxWindow("open");
+
     })
 
     $("#remove").jqxButton({width: '40', height: '30'});
@@ -42,7 +71,15 @@
         alert("bbbbbb");
     })
 
-    $("#window").jqxWindow({width: 350, height: 390, isModal: true, autoOpen: false});
+    $("#window").jqxWindow({width: 370, height: 390, isModal: true, autoOpen: false});
+    $("#window").on('close', function () {
+        $('#name').jqxInput("clear");
+        $('#amount').jqxInput("clear");
+        $('#cost').jqxInput("clear");
+        $('#image').jqxInput("clear");
+        $('#description').jqxInput("clear");
+        $('#vendor').jqxInput("clear");
+    });
     $("#save").jqxButton({width: '90px', height: '30'});
     $("#save").on('click', function () {
         var obj = {
@@ -56,7 +93,7 @@
             vendor: $('#vendor').val()
         };
         console.log(obj);
-        post("/rest/product")
+        Controller.post("/rest/product");
     })
     $("#cancel").jqxButton({width: '90px', height: '30'});
     $("#cancel").on('click', function () {
