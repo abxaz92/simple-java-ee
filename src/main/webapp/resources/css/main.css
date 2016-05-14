@@ -320,6 +320,20 @@ textarea {
     margin: 5% 0% 0% 20%;
 }
 
+.form .previwe {
+    float: left;
+    position: fixed;
+    margin: auto;
+    height: 40px;
+}
+.form input{
+    margin: auto;
+    width: 180px;
+}
+.form .image{
+    height: 80px;
+}
+
 .inp_content {
     display: inline-block;
 }

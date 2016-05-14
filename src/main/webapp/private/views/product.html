@@ -1,10 +1,6 @@
 <div>
     <span><input type="button" value="+" id="add"/></span>
     <span><input type="button" value="-" id="remove"/></span>
-
-    <input id="sortpicture" type="file" name="sortpic"/>
-    <button id="upload">Upload</button>
-
 </div>
 
 <div id="window" class="form">
@@ -20,6 +16,11 @@
         <div><label>Описание</label> <input type="text" id="description"/></div>
         <div><label>Производитель</label>
             <div id="vendor" style="width: 150px;float: right;height: 25px;margin: 0px 7% 0px 1px;"/>
+        </div>
+        <div class="image">
+            <input id="sortpicture" type="file" name="sortpic"/>
+            <img id="blah" class="previwe" src="#" alt=""/>
+            <!--<button id="upload">Upload</button>-->
         </div>
         <div class="toolbar">
             <span>
@@ -45,8 +46,8 @@
         var form_data = new FormData();
         form_data.append('file', file_data);
         $.ajax({
-            url: host + '/rest/image/57', // point to server-side PHP script
-            dataType: 'text',  // what to expect back from the PHP script, if anything
+            url: host + '/rest/image/57',
+            dataType: 'text',
             cache: false,
             contentType: false,
             processData: false,
@@ -55,6 +56,19 @@
             success: function (php_script_response) {
             }
         });
+    });
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#blah').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#sortpicture").change(function () {
+        readURL(this);
     });
 
     $('#name').jqxInput({height: 25, width: 150, minLength: 1});
@@ -111,7 +125,7 @@
         });
     })
 
-    $("#window").jqxWindow({width: 370, height: 390, isModal: true, autoOpen: false});
+    $("#window").jqxWindow({width: 370, height: 430, isModal: true, autoOpen: false});
     $("#window").on('close', function () {
         $('#name').jqxInput("clear");
         $('#amount').jqxInput("clear");
@@ -119,6 +133,8 @@
         $('#image').jqxInput("clear");
         $('#description').jqxInput("clear");
         $('#vendor').jqxInput("clear");
+        $('#sortpicture').val("");
+        $('#blah').attr("src", "")
     });
     $("#save").jqxButton({width: '90px', height: '30'});
     $("#save").on('click', function () {
@@ -132,7 +148,21 @@
             description: $('#description').val(),
             vendor: {id: $('#vendor').val()}
         };
-        Controller.post("/rest/product", obj, function () {
+        Controller.post("/rest/product", obj, function (res) {
+            var file_data = $('#sortpicture').prop('files')[0];
+            var form_data = new FormData();
+            form_data.append('file', file_data);
+            $.ajax({
+                url: host + '/rest/image/' + res.id,
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: form_data,
+                type: 'post',
+                success: function (php_script_response) {
+                }
+            });
             $('#jqxgrid').jqxGrid('updatebounddata');
             $("#window").jqxWindow("close");
         });

@@ -76,10 +76,13 @@ public class ProductService extends AbstractDAO<Product> {
             Product product = findById(id);
             em.remove(product);
             if (product.getImage() != null) {
-                em.remove(em.find(Image.class, product.getImage()));
+                Image image = em.find(Image.class, Long.parseLong(product.getImage()));
+                if (image != null)
+                    em.remove(image);
             }
             utx.commit();
         } catch (Exception e) {
+            e.printStackTrace();
             utx.rollback();
         }
     }
