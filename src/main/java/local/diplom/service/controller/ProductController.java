@@ -3,13 +3,18 @@ package local.diplom.service.controller;
 import com.fasterxml.jackson.databind.JsonNode;
 import local.diplom.service.service.ProductService;
 import local.diplom.service.model.Product;
+import org.jboss.resteasy.plugins.providers.multipart.InputPart;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.inject.Inject;
+import javax.persistence.Lob;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.io.*;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created  by david on 21.02.16
@@ -40,6 +45,13 @@ public class ProductController {
     public Product post(Product product) throws Exception {
         productService.insert(product);
         return product;
+    }
+
+    @POST
+    @Path("/image/{id}")
+    @Consumes("multipart/form-data")
+    public void uploadImage(@PathParam("id") Long id, MultipartFormDataInput input) throws Exception {
+        productService.uploadImage(id, input);
     }
 
     @POST

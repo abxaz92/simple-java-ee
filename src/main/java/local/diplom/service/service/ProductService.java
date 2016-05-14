@@ -1,13 +1,21 @@
 package local.diplom.service.service;
 
 import local.diplom.service.abstracts.AbstractDAO;
+import local.diplom.service.model.Image;
 import local.diplom.service.model.Product;
 import local.diplom.service.model.SaleProduct;
+import org.jboss.resteasy.plugins.providers.multipart.InputPart;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.persistence.TypedQuery;
+import javax.transaction.*;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by david on 22.02.16 .
@@ -17,6 +25,39 @@ import java.util.List;
 public class ProductService extends AbstractDAO<Product> {
     public ProductService() {
         super("Product", Product.class);
+    }
+
+    public void uploadImage(@PathParam("id") Long id, MultipartFormDataInput input) throws Exception {
+        Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
+        uploadForm.forEach((key, val) -> {
+            InputPart inputPart = val.get(0);
+            try (InputStream inputStream = inputPart.getBody(InputStream.class, null)) {
+                Product product = findById(id);
+                ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+                int nRead;
+                byte[] data = new byte[16384];
+                while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+                    buffer.write(data, 0, nRead);
+                }
+                buffer.flush();
+                Image image = new Image();
+                image.setImageFile(buffer.toByteArray());
+                try {
+                    utx.begin();
+                    em.persist(image);
+                    product.setImage(String.valueOf(image.getId()));
+                    em.merge(product);
+                    utx.commit();
+                } catch (Exception e) {
+                    utx.rollback();
+                    e.printStackTrace();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw exception(Response.Status.SERVICE_UNAVAILABLE, "Что-то пошло не так");
+            }
+
+        });
     }
 
     public void sell(long productId) throws Exception {
