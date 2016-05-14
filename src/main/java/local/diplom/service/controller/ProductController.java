@@ -48,13 +48,6 @@ public class ProductController {
     }
 
     @POST
-    @Path("/image/{id}")
-    @Consumes("multipart/form-data")
-    public void uploadImage(@PathParam("id") Long id, MultipartFormDataInput input) throws Exception {
-        productService.uploadImage(id, input);
-    }
-
-    @POST
     @Path("/sell/{productId}")
     public void sell(@PathParam("productId") Long productId) throws Exception {
         productService.sell(productId);

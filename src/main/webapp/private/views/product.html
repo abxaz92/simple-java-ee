@@ -1,6 +1,10 @@
 <div>
     <span><input type="button" value="+" id="add"/></span>
     <span><input type="button" value="-" id="remove"/></span>
+
+    <input id="sortpicture" type="file" name="sortpic"/>
+    <button id="upload">Upload</button>
+
 </div>
 
 <div id="window" class="form">
@@ -36,6 +40,22 @@
 <script defer="defer">
     var url = host + "/rest/product";
 
+    $('#upload').on('click', function () {
+        var file_data = $('#sortpicture').prop('files')[0];
+        var form_data = new FormData();
+        form_data.append('file', file_data);
+        $.ajax({
+            url: host + '/rest/image/57', // point to server-side PHP script
+            dataType: 'text',  // what to expect back from the PHP script, if anything
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: form_data,
+            type: 'post',
+            success: function (php_script_response) {
+            }
+        });
+    });
 
     $('#name').jqxInput({height: 25, width: 150, minLength: 1});
     $('#amount').jqxInput({height: 25, width: 150, minLength: 1});

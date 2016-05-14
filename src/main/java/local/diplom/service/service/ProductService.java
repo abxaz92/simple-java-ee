@@ -1,18 +1,19 @@
 package local.diplom.service.service;
 
 import local.diplom.service.abstracts.AbstractDAO;
+import local.diplom.service.controller.SaleProductController;
 import local.diplom.service.model.Image;
 import local.diplom.service.model.Product;
 import local.diplom.service.model.SaleProduct;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.transaction.*;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,8 @@ import java.util.Map;
 
 @ApplicationScoped
 public class ProductService extends AbstractDAO<Product> {
+    private static final Logger log = LoggerFactory.getLogger(SaleProductController.class);
+
     public ProductService() {
         super("Product", Product.class);
     }
@@ -40,11 +43,17 @@ public class ProductService extends AbstractDAO<Product> {
                     buffer.write(data, 0, nRead);
                 }
                 buffer.flush();
-                Image image = new Image();
-                image.setImageFile(buffer.toByteArray());
+                Image image = em.find(Image.class, Long.parseLong(product.getImage()));
                 try {
                     utx.begin();
-                    em.persist(image);
+                    if (image == null) {
+                        image = new Image();
+                        image.setImageFile(buffer.toByteArray());
+                        em.persist(image);
+                    } else {
+                        image.setImageFile(buffer.toByteArray());
+                        em.merge(image);
+                    }
                     product.setImage(String.valueOf(image.getId()));
                     em.merge(product);
                     utx.commit();
@@ -58,6 +67,21 @@ public class ProductService extends AbstractDAO<Product> {
             }
 
         });
+    }
+
+    @Override
+    public void deleteById(Long id) throws Exception {
+        try {
+            utx.begin();
+            Product product = findById(id);
+            em.remove(product);
+            if (product.getImage() != null) {
+                em.remove(em.find(Image.class, product.getImage()));
+            }
+            utx.commit();
+        } catch (Exception e) {
+            utx.rollback();
+        }
     }
 
     public void sell(long productId) throws Exception {
