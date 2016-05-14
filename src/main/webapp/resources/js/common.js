@@ -36,7 +36,7 @@ function getJson(url, callback) {
     });
 }
 Controller = {
-    get: function (url, data, callback) {
+    get: function (url, callback) {
         $.ajax({
             url: host + url,
             type: 'GET',

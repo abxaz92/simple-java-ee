@@ -6,6 +6,9 @@
 <div id="window" class="form">
     <div>Продукт</div>
     <div>
+        <div>
+            <input type="hidden" id="id"/>
+        </div>
         <div><label>Название</label> <input type="text" id="name"/></div>
         <div><label>Категория</label>
             <div id="category" style="width: 150px;float: right;height: 25px;margin: 0px 7% 0px 1px;"/>
@@ -18,7 +21,9 @@
             <div id="vendor" style="width: 150px;float: right;height: 25px;margin: 0px 7% 0px 1px;"/>
         </div>
         <div class="image">
-            <input id="sortpicture" type="file" name="sortpic"/>
+            <label>
+                <input id="sortpicture" type="file" name="sortpic"/>
+            </label>
             <img id="blah" class="previwe" src="#" alt=""/>
         </div>
         <div class="toolbar">
@@ -113,7 +118,6 @@
     $("#add").jqxButton({width: '40', height: '30'});
     $("#add").on('click', function () {
         $("#window").jqxWindow("open");
-
     })
 
     $("#remove").jqxButton({width: '40', height: '30'});
@@ -131,12 +135,14 @@
         $('#cost').jqxInput("clear");
         $('#image').jqxInput("clear");
         $('#description').jqxInput("clear");
-        $('#vendor').jqxInput("clear");
         $('#sortpicture').val("");
+        $('#id').val("");
         $('#blah').attr("src", "")
     });
+
     $("#save").jqxButton({width: '90px', height: '30'});
     $("#save").on('click', function () {
+        var id = $("#id").val();
         var obj = {
             name: $('#name').val(),
             brand: $('#brand').val(),
@@ -166,10 +172,32 @@
             $("#window").jqxWindow("close");
         });
     })
+
     $("#cancel").jqxButton({width: '90px', height: '30'});
     $("#cancel").on('click', function () {
         $("#window").jqxWindow("close");
     })
+
+    $('#jqxgrid').on('rowdoubleclick', function (event) {
+        $("#window").jqxWindow("open");
+        var row = $('#jqxgrid').jqxGrid('getrowdata', event.args.rowindex);
+        Controller.get("/rest/product/" + row.id, function (data) {
+            $("#id").val(data.id)
+            $('#name').jqxInput('val', !data.name ? "" : data.name);
+            $('#amount').jqxInput('val', !data.amount ? "" : data.amount);
+            $('#cost').jqxInput('val', !data.cost ? "" : data.cost);
+            $('#image').jqxInput('val', !data.image ? "" : data.image);
+            $('#description').jqxInput('val', !data.description ? "" : data.description);
+            $('#vendor').jqxInput('val', !data.vendor ? "" : data.vendor);
+            $('#sortpicture').jqxInput('val', !data.sortpicture ? "" : data.sortpicture);
+            $('#id').jqxInput('val', !data.id ? "" : data.id);
+            $('#blah').jqxInput('val', !data.blah ? "" : data.blah);
+            $('#category').jqxDropDownList('selectItem', $('#category').jqxDropDownList('getItemByValue', data.category.id));
+            $('#vendor').jqxDropDownList('selectItem', $('#vendor').jqxDropDownList('getItemByValue', data.vendor.id));
+        });
+
+
+    });
 
     var source = {
         datatype: "json",
