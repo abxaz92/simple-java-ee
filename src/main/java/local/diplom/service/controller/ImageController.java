@@ -11,11 +11,9 @@ import javax.ejb.TransactionManagementType;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.sql.rowset.serial.SerialBlob;
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.sql.Blob;
+import javax.ws.rs.core.Response.Status;
 import java.sql.SQLException;
 
 /**
@@ -35,6 +33,8 @@ public class ImageController {
     @Path("{id}")
     public Response getImage(@PathParam("id") String id) throws SQLException {
         Image image = em.find(Image.class, Long.parseLong(id));
+        if (image == null)
+            return Response.status(Status.NOT_FOUND).build();
         return Response.ok(image.getImageFile()).header("Content-Type", "image/png").build();
     }
 
