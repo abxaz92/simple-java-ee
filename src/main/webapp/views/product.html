@@ -13,11 +13,12 @@
 
 <script defer="defer">
     Controller.get("/rest/productcategory", function (cat) {
+        console.log(cat);
         for (var i in cat) {
             $('#category').append('<option value=' + cat[i].id + '>' + cat[i].name + '</option>');
         }
 
-        Controller.get("/rest/product/", function (e) {
+        Controller.get("/rest/product?category=" + cat[0].id, function (e) {
             console.log(e);
             for (var i in e) {
                 e[i].image = host + "/rest/image/" + e[i].image;
