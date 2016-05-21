@@ -37,8 +37,9 @@ public class ProductController {
     @GET
     public Object getAll(@QueryParam("skip") Integer skip,
                          @QueryParam("limit") Integer limit,
-                         @QueryParam("count") String count) {
-        return productService.findAll(skip, limit, count);
+                         @QueryParam("count") String count,
+                         @QueryParam("category") Long category) {
+        return productService.findAll(skip, limit, count, category);
     }
 
     @POST

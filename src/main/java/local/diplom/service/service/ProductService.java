@@ -11,6 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 import java.io.ByteArrayOutputStream;
@@ -70,6 +72,26 @@ public class ProductService extends AbstractDAO<Product> {
             }
 
         });
+    }
+
+    public Object findAll(Integer skip, Integer limit, String count, Long category) {
+        if (count == null) {
+            Query query = null;
+            if (category == null)
+                query = em.createNamedQuery(tablename + ".getAll", Product.class);
+            else {
+                query = em.createQuery("SELECT p FROM " + tablename + " p WHERE category_id = " + category);
+            }
+            if (skip != null)
+                query.setFirstResult(skip);
+            if (limit != null)
+                query.setMaxResults(limit);
+            return query.getResultList();
+        } else {
+            String sql = "SELECT COUNT(d) FROM " + tablename + " d";
+            Query query = em.createQuery(sql);
+            return query.getSingleResult();
+        }
     }
 
     @Override

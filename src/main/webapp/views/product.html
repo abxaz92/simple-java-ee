@@ -1,12 +1,35 @@
-<div style="display: flex;">
+<div style="display: flex;" xmlns="http://java.sun.com/jsf/html">
 
     <span id="filter" class="filter">
+    <select id="category">
 
+    </select>
     </span>
     <div id="catalog" class="catalog">
 
     </div>
 </div>
+
+
+<script defer="defer">
+    Controller.get("/rest/productcategory", function (cat) {
+        for (var i in cat) {
+            $('#category').append('<option value=' + cat[i].id + '>' + cat[i].name + '</option>');
+        }
+
+        Controller.get("/rest/product/", function (e) {
+            console.log(e);
+            for (var i in e) {
+                e[i].image = host + "/rest/image/" + e[i].image;
+            }
+            drawContent(e, "productTmpl", "catalog");
+        });
+    });
+
+
+</script>
+
+
 <script id="productTmpl" type="text/x-jquery-tmpl">
 	<div class="tpl">
 		<div class="images">
@@ -24,15 +47,7 @@
 		</div>
 		<button class="buy pos buybtn" onclick="currPhone=this.parentNode; window.location.href = '#!buy';">Купить</button>
 	</div>
-</script>
 
-<script defer="defer">
-    Controller.get("/rest/product/", function (e) {
-        console.log(e);
-        for (var i in e){
-            e[i].image = host+"/rest/image/" + e[i].image;
-        }
-        drawContent(e, "productTmpl", "catalog");
-    })
+
 
 </script>
