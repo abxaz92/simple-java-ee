@@ -1,10 +1,13 @@
 <div style="display: flex;" xmlns="http://java.sun.com/jsf/html">
 
-    <span id="filter" class="filter">
-    <select id="category">
+    <span class="filter">
+        <select id="category" style="width: 180px;height: 25px;"></select>
+        <div class="tool">
 
-    </select>
+        </div>
+        <button id="filter" class="btn">Показать</button>
     </span>
+
     <div id="catalog" class="catalog">
 
     </div>
@@ -12,6 +15,15 @@
 
 
 <script defer="defer">
+    var render = function (e) {
+        console.log(e);
+        $("#catalog").empty();
+        for (var i in e) {
+            e[i].image = host + "/rest/image/" + e[i].image;
+        }
+        drawContent(e, "productTmpl", "catalog");
+    }
+
     Controller.get("/rest/productcategory", function (cat) {
         console.log(cat);
         for (var i in cat) {
@@ -19,14 +31,15 @@
         }
 
         Controller.get("/rest/product?category=" + cat[0].id, function (e) {
-            console.log(e);
-            for (var i in e) {
-                e[i].image = host + "/rest/image/" + e[i].image;
-            }
-            drawContent(e, "productTmpl", "catalog");
+            render(e);
         });
     });
 
+    $('#filter').click(function () {
+        Controller.get("/rest/product?category=" + $("#category").val(), function (e) {
+            render(e);
+        });
+    });
 
 </script>
 
@@ -48,6 +61,20 @@
 		</div>
 		<button class="buy pos buybtn" onclick="currPhone=this.parentNode; window.location.href = '#!buy';">Купить</button>
 	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

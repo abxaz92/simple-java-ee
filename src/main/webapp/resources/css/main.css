@@ -134,7 +134,7 @@ textarea {
     overflow-y: scroll;
     overflow-x: hidden;
     height: 640px;
-    /*width: 900px;*/
+    width: 1800px;
     float: right;
     margin-right: -10px;
 }
@@ -239,6 +239,34 @@ textarea {
     -webkit-box-shadow: inset 0px 1px 0px #3e9cbf, 0px 2px 0px 0px #205c73, 0px 2px 5px #999;
     -moz-box-shadow: inset 0px 1px 0px #3e9cbf, 0px 2px 0px 0px #205c73, 0px 2px 5px #999;
     box-shadow: inset 0px 1px 0px #3e9cbf, 0px 2px 0px 0px #205c73, 0px 2px 5px #999;
+}
+
+.btn {
+    background: #3498db;
+    background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
+    background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+    background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+    background-image: -o-linear-gradient(top, #3498db, #2980b9);
+    background-image: linear-gradient(to bottom, #3498db, #2980b9);
+    -webkit-border-radius: 10;
+    -moz-border-radius: 10;
+    border-radius: 10px;
+    text-shadow: 1px 1px 3px #666666;
+    font-family: Arial;
+    color: #ffffff;
+    font-size: 20px;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background: #3cb0fd;
+    background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+    text-decoration: none;
 }
 
 .action {
@@ -366,10 +394,14 @@ textarea {
     padding: 15px;
 }
 
+.filter .tool {
+    height: 300px;
+}
+
 .filter button {
-    height: 30px;
-    width: 115px;
-    margin: 10px 0px 0px 15px;
+    height: 47px;
+    width: 135px;
+    margin: 10px 0px 0px 35px;
     border-radius: 4px;
 }
 
