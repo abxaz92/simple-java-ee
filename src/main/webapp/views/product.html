@@ -1,24 +1,22 @@
-<div id="catalog" class="catalog">
-</div>
+<div style="display: flex;">
 
+    <span id="filter" class="filter">
+
+    </span>
+    <div id="catalog" class="catalog">
+
+    </div>
+</div>
 <script id="productTmpl" type="text/x-jquery-tmpl">
 	<div class="tpl">
 		<div class="images">
-			<img  class="front" src="${photo}">
+			<img  class="front" src="${image}">
 		</div>
 		<h2 class="name">${name}</h2>
+		<h1 class="price">${cost}</h1>
 		<div class="more_info m_pos">
-			{{if $item.data.cores && $item.data.cores != 0}}
-				<p>Количество ядер: ${cores}</p>
-			{{/if}}
-			{{if $item.data.memory && $item.data.memory != 0}}
-				<p>Память: ${memory}Мб</p>
-			{{/if}}
-			{{if $item.data.weight && $item.data.weight != 0}}
-				<p>Вес: ${weight} гр</p>
-			{{/if}}
-			{{if $item.data.os && $item.data.os != ""}}
-				<p>ОС: ${os}</p>
+			{{if $item.data.description && $item.data.description != ""}}
+				<p class="desc">${description}</p>
 			{{/if}}
 			{{if $item.data.resolution && $item.data.resolution != ""}}
 				<p>Разрешение: ${resolution}</p>
@@ -29,9 +27,12 @@
 </script>
 
 <script defer="defer">
-	getJson("/service/rest/product/", function(e){
-		console.log(e);
-		drawContent(e, "productTmpl", "catalog");	
-	})
-	
+    Controller.get("/rest/product/", function (e) {
+        console.log(e);
+        for (var i in e){
+            e[i].image = host+"/rest/image/" + e[i].image;
+        }
+        drawContent(e, "productTmpl", "catalog");
+    })
+
 </script>

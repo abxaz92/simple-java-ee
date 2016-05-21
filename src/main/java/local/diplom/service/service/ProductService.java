@@ -43,7 +43,10 @@ public class ProductService extends AbstractDAO<Product> {
                     buffer.write(data, 0, nRead);
                 }
                 buffer.flush();
-                Image image = em.find(Image.class, Long.parseLong(product.getImage()));
+                Image image = null;
+                if (product.getImage() != null && !product.getImage().isEmpty()) {
+                    image = em.find(Image.class, Long.parseLong(product.getImage()));
+                }
                 try {
                     utx.begin();
                     if (image == null) {
@@ -76,9 +79,13 @@ public class ProductService extends AbstractDAO<Product> {
             Product product = findById(id);
             em.remove(product);
             if (product.getImage() != null) {
-                Image image = em.find(Image.class, Long.parseLong(product.getImage()));
-                if (image != null)
-                    em.remove(image);
+                try {
+                    Image image = em.find(Image.class, Long.parseLong(product.getImage()));
+                    if (image != null)
+                        em.remove(image);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             utx.commit();
         } catch (Exception e) {
