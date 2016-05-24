@@ -80,7 +80,7 @@ public class ProductService extends AbstractDAO<Product> {
             if (category == null)
                 query = em.createNamedQuery(tablename + ".getAll", Product.class);
             else {
-                query = em.createQuery("SELECT p FROM " + tablename + " p WHERE category_id = " + category);
+                query = em.createQuery("SELECT p FROM " + tablename + " p WHERE amount > 0 AND category_id = " + category );
             }
             if (skip != null)
                 query.setFirstResult(skip);
