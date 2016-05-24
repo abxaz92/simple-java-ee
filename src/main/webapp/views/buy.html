@@ -1,7 +1,28 @@
-<div>
-
+<div id="product">
 </div>
 
 <script defer="defer">
-alert("a")
+    Controller.get('/rest/product/147', function (e) {
+        e.image = host + "/rest/image/" + e.image;
+        drawContent(e, "productTmpl", "product");
+    });
+</script>
+
+<script id="productTmpl" type="text/x-jquery-tmpl">
+	<div class="tpl">
+		<div class="images">
+			<img  class="front" src="${image}">
+		</div>
+		<h2 class="name">${name}</h2>
+		<h1 class="price">${cost}</h1>
+		<div class="more_info m_pos">
+			{{if $item.data.description && $item.data.description != ""}}
+				<p class="desc">${description}</p>
+			{{/if}}
+			{{if $item.data.resolution && $item.data.resolution != ""}}
+				<p>Разрешение: ${resolution}</p>
+			{{/if}}
+		</div>
+		<button class="buy pos buybtn" onclick="currPhone=this.parentNode; window.location.href = '#!' + 'views/buy?product=${id}'">Купить</button>
+	</div>
 </script>
