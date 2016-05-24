@@ -43,122 +43,15 @@
     </div>
 </div>
 <script defer="defer">
-    var url = host + "/rest/product";
+    (function () {
+        var url = host + "/rest/product";
 
-    $('#upload').on('click', function () {
-        var file_data = $('#sortpicture').prop('files')[0];
-        var form_data = new FormData();
-        form_data.append('file', file_data);
-        $.ajax({
-            url: host + '/rest/image/57',
-            dataType: 'text',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: form_data,
-            type: 'post',
-            success: function (php_script_response) {
-            }
-        });
-    });
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $('#blah').attr('src', e.target.result);
-            }
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
-    $("#sortpicture").change(function () {
-        readURL(this);
-    });
-
-    $('#name').jqxInput({height: 25, width: 150, minLength: 1});
-    $('#amount').jqxInput({height: 25, width: 150, minLength: 1});
-    $('#cost').jqxInput({height: 25, width: 150, minLength: 1});
-    $('#image').jqxInput({height: 25, width: 150, minLength: 1});
-    $('#description').jqxInput({height: 25, width: 150, minLength: 1});
-
-    $("#category").jqxDropDownList({
-        selectedIndex: 0,
-        source: new $.jqx.dataAdapter({
-            datatype: "json",
-            datafields: [
-                {name: 'name'},
-                {name: 'id'}
-            ],
-            url: host + "/rest/productcategory",
-            async: true
-        }),
-        displayMember: "name",
-        valueMember: "id",
-        width: 150,
-        height: 25
-    });
-
-    $("#vendor").jqxDropDownList({
-        selectedIndex: 0,
-        source: new $.jqx.dataAdapter({
-            datatype: "json",
-            datafields: [
-                {name: 'name'},
-                {name: 'id'}
-            ],
-            url: host + "/rest/vendor",
-            async: true
-        }),
-        displayMember: "name",
-        valueMember: "id",
-        width: 150,
-        height: 25
-    });
-
-    $("#add").jqxButton({width: '40', height: '30'});
-    $("#add").on('click', function () {
-        $("#window").jqxWindow("open");
-    })
-
-    $("#remove").jqxButton({width: '40', height: '30'});
-    $("#remove").on('click', function () {
-        var row = $('#jqxgrid').jqxGrid('getrowdata', $('#jqxgrid').jqxGrid('getselectedrowindex'));
-        Controller.del("/rest/product/" + row.id, null, function () {
-            $('#jqxgrid').jqxGrid('updatebounddata');
-        });
-    })
-
-    $("#window").jqxWindow({width: 370, height: 430, isModal: true, autoOpen: false});
-    $("#window").on('close', function () {
-        $('#name').jqxInput("clear");
-        $('#amount').jqxInput("clear");
-        $('#cost').jqxInput("clear");
-        $('#image').jqxInput("clear");
-        $('#description').jqxInput("clear");
-        $('#sortpicture').val("");
-        $('#id').val("");
-        $('#blah').attr("src", "")
-    });
-
-    $("#save").jqxButton({width: '90px', height: '30'});
-    $("#save").on('click', function () {
-        var id = $("#id").val();
-        var obj = {
-            name: $('#name').val(),
-            brand: $('#brand').val(),
-            category: {id: $('#category').val()},
-            amount: $('#amount').val(),
-            cost: $('#cost').val(),
-            image: $('#image').val(),
-            description: $('#description').val(),
-            vendor: {id: $('#vendor').val()}
-        };
-        Controller.post("/rest/product", obj, function (res) {
+        $('#upload').on('click', function () {
             var file_data = $('#sortpicture').prop('files')[0];
             var form_data = new FormData();
             form_data.append('file', file_data);
             $.ajax({
-                url: host + '/rest/image/' + res.id,
+                url: host + '/rest/image/57',
                 dataType: 'text',
                 cache: false,
                 contentType: false,
@@ -168,102 +61,214 @@
                 success: function (php_script_response) {
                 }
             });
-            $('#jqxgrid').jqxGrid('updatebounddata');
-            $("#window").jqxWindow("close");
         });
-    })
-
-    $("#cancel").jqxButton({width: '90px', height: '30'});
-    $("#cancel").on('click', function () {
-        $("#window").jqxWindow("close");
-    })
-
-    $('#jqxgrid').on('rowdoubleclick', function (event) {
-        $("#window").jqxWindow("open");
-        var row = $('#jqxgrid').jqxGrid('getrowdata', event.args.rowindex);
-        Controller.get("/rest/product/" + row.id, function (data) {
-            $("#id").val(data.id)
-            $('#name').jqxInput('val', !data.name ? "" : data.name);
-            $('#amount').jqxInput('val', !data.amount ? "" : data.amount);
-            $('#cost').jqxInput('val', !data.cost ? "" : data.cost);
-            $('#image').jqxInput('val', !data.image ? "" : data.image);
-            $('#description').jqxInput('val', !data.description ? "" : data.description);
-            $('#vendor').jqxInput('val', !data.vendor ? "" : data.vendor);
-            $('#sortpicture').jqxInput('val', !data.sortpicture ? "" : data.sortpicture);
-            $('#id').jqxInput('val', !data.id ? "" : data.id);
-            $('#blah').jqxInput('val', !data.blah ? "" : data.blah);
-            $('#category').jqxDropDownList('selectItem', $('#category').jqxDropDownList('getItemByValue', data.category.id));
-            $('#vendor').jqxDropDownList('selectItem', $('#vendor').jqxDropDownList('getItemByValue', data.vendor.id));
-        });
-
-
-    });
-
-    var source = {
-        datatype: "json",
-        datafields: [
-            {name: 'id', type: 'int'},
-            {name: 'name', type: 'string'},
-            {name: 'cost', type: 'string'},
-            {name: 'brand', type: 'string'},
-            {name: 'amount', type: 'string'},
-            {name: 'categoryname', type: 'string', map: "category>name"}
-        ],
-        id: 'id',
-        url: url
-    };
-
-    var dataAdapter = new $.jqx.dataAdapter(source, {
-        downloadComplete: function (data, status, xhr) {
-        },
-        loadComplete: function (data) {
-        },
-        loadError: function (xhr, status, error) {
-        }
-    });
-    $("#jqxgrid").jqxGrid({
-        width: 740,
-        height: 500,
-        source: dataAdapter,
-        sortable: true,
-        altrows: true,
-        columns: [
-            {
-                text: 'Id',
-                datafield: 'id',
-                width: 50
-            },
-            {
-                text: 'Название',
-                datafield: 'name',
-                cellsalign: 'left',
-                align: 'left',
-                width: 200
-            },
-            {
-                text: 'Цена',
-                datafield: 'cost',
-                align: 'right',
-                cellsalign: 'right',
-                width: 100
-            },
-            {
-                text: 'Производитель', datafield: 'brand',
-                cellsalign: 'left',
-                align: 'left',
-                width: 200
-            }, {
-                text: 'Количество',
-                datafield: 'amount',
-                align: 'right',
-                cellsalign: 'right',
-                width: 70
-            }, {
-                text: 'Категория',
-                datafield: 'categoryname',
-                cellsalign: 'right',
-                width: 100
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#blah').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
             }
-        ]
-    });
+        }
+
+        $("#sortpicture").change(function () {
+            readURL(this);
+        });
+
+        $('#name').jqxInput({height: 25, width: 150, minLength: 1});
+        $('#amount').jqxInput({height: 25, width: 150, minLength: 1});
+        $('#cost').jqxInput({height: 25, width: 150, minLength: 1});
+        $('#image').jqxInput({height: 25, width: 150, minLength: 1});
+        $('#description').jqxInput({height: 25, width: 150, minLength: 1});
+
+        $("#category").jqxDropDownList({
+            selectedIndex: 0,
+            source: new $.jqx.dataAdapter({
+                datatype: "json",
+                datafields: [
+                    {name: 'name'},
+                    {name: 'id'}
+                ],
+                url: host + "/rest/productcategory",
+                async: true
+            }),
+            displayMember: "name",
+            valueMember: "id",
+            width: 150,
+            height: 25
+        });
+
+        $("#vendor").jqxDropDownList({
+            selectedIndex: 0,
+            source: new $.jqx.dataAdapter({
+                datatype: "json",
+                datafields: [
+                    {name: 'name'},
+                    {name: 'id'}
+                ],
+                url: host + "/rest/vendor",
+                async: true
+            }),
+            displayMember: "name",
+            valueMember: "id",
+            width: 150,
+            height: 25
+        });
+
+        $("#add").jqxButton({width: '40', height: '30'});
+        $("#add").on('click', function () {
+            $("#window").jqxWindow("open");
+        })
+
+        $("#remove").jqxButton({width: '40', height: '30'});
+        $("#remove").on('click', function () {
+            var row = $('#jqxgrid').jqxGrid('getrowdata', $('#jqxgrid').jqxGrid('getselectedrowindex'));
+            Controller.del("/rest/product/" + row.id, null, function () {
+                $('#jqxgrid').jqxGrid('updatebounddata');
+            });
+        })
+
+        $("#window").jqxWindow({width: 370, height: 430, isModal: true, autoOpen: false});
+        $("#window").on('close', function () {
+            $('#name').jqxInput("clear");
+            $('#amount').jqxInput("clear");
+            $('#cost').jqxInput("clear");
+            $('#image').jqxInput("clear");
+            $('#description').jqxInput("clear");
+            $('#sortpicture').val("");
+            $('#id').val("");
+            $('#blah').attr("src", "")
+        });
+
+        $("#save").jqxButton({width: '90px', height: '30'});
+        $("#save").on('click', function () {
+            var id = $("#id").val();
+            var obj = {
+                name: $('#name').val(),
+                brand: $('#brand').val(),
+                category: {id: $('#category').val()},
+                amount: $('#amount').val(),
+                cost: $('#cost').val(),
+                image: $('#image').val(),
+                description: $('#description').val(),
+                vendor: {id: $('#vendor').val()}
+            };
+            Controller.post("/rest/product", obj, function (res) {
+                var file_data = $('#sortpicture').prop('files')[0];
+                var form_data = new FormData();
+                form_data.append('file', file_data);
+                $.ajax({
+                    url: host + '/rest/image/' + res.id,
+                    dataType: 'text',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: form_data,
+                    type: 'post',
+                    success: function (php_script_response) {
+                    }
+                });
+                $('#jqxgrid').jqxGrid('updatebounddata');
+                $("#window").jqxWindow("close");
+            });
+        })
+
+        $("#cancel").jqxButton({width: '90px', height: '30'});
+        $("#cancel").on('click', function () {
+            $("#window").jqxWindow("close");
+        })
+
+        $('#jqxgrid').on('rowdoubleclick', function (event) {
+            $("#window").jqxWindow("open");
+            var row = $('#jqxgrid').jqxGrid('getrowdata', event.args.rowindex);
+            Controller.get("/rest/product/" + row.id, function (data) {
+                $("#id").val(data.id)
+                $('#name').jqxInput('val', !data.name ? "" : data.name);
+                $('#amount').jqxInput('val', !data.amount ? "" : data.amount);
+                $('#cost').jqxInput('val', !data.cost ? "" : data.cost);
+                $('#image').jqxInput('val', !data.image ? "" : data.image);
+                $('#description').jqxInput('val', !data.description ? "" : data.description);
+                $('#vendor').jqxInput('val', !data.vendor ? "" : data.vendor);
+                $('#sortpicture').jqxInput('val', !data.sortpicture ? "" : data.sortpicture);
+                $('#id').jqxInput('val', !data.id ? "" : data.id);
+                $('#blah').jqxInput('val', !data.blah ? "" : data.blah);
+                $('#category').jqxDropDownList('selectItem', $('#category').jqxDropDownList('getItemByValue', data.category.id));
+                $('#vendor').jqxDropDownList('selectItem', $('#vendor').jqxDropDownList('getItemByValue', data.vendor.id));
+            });
+
+
+        });
+
+        var source = {
+            datatype: "json",
+            datafields: [
+                {name: 'id', type: 'int'},
+                {name: 'name', type: 'string'},
+                {name: 'cost', type: 'string'},
+                {name: 'brand', type: 'string'},
+                {name: 'amount', type: 'string'},
+                {name: 'categoryname', type: 'string', map: "category>name"}
+            ],
+            id: 'id',
+            url: url
+        };
+
+        var dataAdapter = new $.jqx.dataAdapter(source, {
+            downloadComplete: function (data, status, xhr) {
+            },
+            loadComplete: function (data) {
+            },
+            loadError: function (xhr, status, error) {
+            }
+        });
+        $("#jqxgrid").jqxGrid({
+            width: 740,
+            height: 500,
+            source: dataAdapter,
+            sortable: true,
+            altrows: true,
+            columns: [
+                {
+                    text: 'Id',
+                    datafield: 'id',
+                    width: 50
+                },
+                {
+                    text: 'Название',
+                    datafield: 'name',
+                    cellsalign: 'left',
+                    align: 'left',
+                    width: 200
+                },
+                {
+                    text: 'Цена',
+                    datafield: 'cost',
+                    align: 'right',
+                    cellsalign: 'right',
+                    width: 100
+                },
+                {
+                    text: 'Производитель', datafield: 'brand',
+                    cellsalign: 'left',
+                    align: 'left',
+                    width: 200
+                }, {
+                    text: 'Количество',
+                    datafield: 'amount',
+                    align: 'right',
+                    cellsalign: 'right',
+                    width: 70
+                }, {
+                    text: 'Категория',
+                    datafield: 'categoryname',
+                    cellsalign: 'right',
+                    width: 100
+                }
+            ]
+        });
+    }());
+    function unload() {
+        $("#window").jqxWindow('destroy');
+    }
 </script>

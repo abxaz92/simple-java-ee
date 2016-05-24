@@ -20,9 +20,20 @@ function route() {
     } else loadToContent('home')
 }
 function loadToContent(page) {
-    var content = $("#content");
-    content.empty();
-    content.load(page + ".html");
+    try {
+        var content = $("#content");
+        content.empty();
+        unload();
+        unload = function () {
+        };
+        content.load(page + ".html");
+    } catch (err) {
+        console.log(err);
+    }
+
+}
+unload = function () {
+
 }
 function drawContent(phones, tpl, to) {
     $('#' + tpl).tmpl(phones).appendTo('#' + to);

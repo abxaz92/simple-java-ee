@@ -3,16 +3,16 @@
     <span><input type="button" value="-" id="remove"/></span>
 </div>
 
-<div id="window" class="form">
+<div id="catwindow" class="form">
     <div>Продукт</div>
     <div>
         <div><label>Название</label> <input type="text" id="name"/></div>
         <div class="toolbar">
             <span>
-                <input type="button" value="Сохранить" id='save'/>
+                <input type="button" value="Сохранить" id='catsave'/>
             </span>
             <span>
-                <input type="button" value="Отменить" id='cancel'/>
+                <input type="button" value="Отменить" id='catcancel'/>
             </span>
         </div>
     </div>
@@ -24,80 +24,84 @@
     </div>
 </div>
 <script defer="defer">
-    var url = host + "/rest/productcategory";
+    (function () {
+        var url = host + "/rest/productcategory";
 
+        $('#name').jqxInput({height: 25, width: 150, minLength: 1});
 
-    $('#name').jqxInput({height: 25, width: 150, minLength: 1});
+        $("#add").jqxButton({width: '40', height: '30'});
+        $("#add").on('click', function () {
+            $("#catwindow").jqxWindow("open");
+        })
 
-    $("#add").jqxButton({width: '40', height: '30'});
-    $("#add").on('click', function () {
-        $("#window").jqxWindow("open");
-    })
+        $("#remove").jqxButton({width: '40', height: '30'});
+        $("#remove").on('click', function () {
+            var row = $('#jqxgrid').jqxGrid('getrowdata', $('#jqxgrid').jqxGrid('getselectedrowindex'));
+            Controller.del("/rest/productcategory/" + row.id, null, function () {
+                $('#jqxgrid').jqxGrid('updatebounddata');
+            });
+        })
 
-    $("#remove").jqxButton({width: '40', height: '30'});
-    $("#remove").on('click', function () {
-        var row = $('#jqxgrid').jqxGrid('getrowdata', $('#jqxgrid').jqxGrid('getselectedrowindex'));
-        Controller.del("/rest/productcategory/" + row.id, null, function () {
-            $('#jqxgrid').jqxGrid('updatebounddata');
+        $("#catwindow").jqxWindow({width: 370, height: 390, isModal: true, autoOpen: false});
+        $("#catwindow").on('close', function () {
+            $('#name').jqxInput("clear");
         });
-    })
+        $("#catsave").jqxButton({width: '90px', height: '30'});
+        $("#catsave").on('click', function () {
+            var obj = {
+                name: $('#name').val()
+            };
+            Controller.post("/rest/productcategory", obj, function () {
+                $('#jqxgrid').jqxGrid('updatebounddata');
+                $("#catwindow").jqxWindow("close");
+            });
+        })
+        $("#catcancel").jqxButton({width: '90px', height: '30'});
+        $("#catcancel").on('click', function () {
+            $("#catwindow").jqxWindow("close");
+        })
 
-    $("#window").jqxWindow({width: 370, height: 390, isModal: true, autoOpen: false});
-    $("#window").on('close', function () {
-        $('#name').jqxInput("clear");
-    });
-    $("#save").jqxButton({width: '90px', height: '30'});
-    $("#save").on('click', function () {
-        var obj = {
-            name: $('#name').val()
+        var source = {
+            datatype: "json",
+            datafields: [
+                {name: 'id', type: 'int'},
+                {name: 'name', type: 'string'}
+            ],
+            id: 'id',
+            url: url
         };
-        Controller.post("/rest/productcategory", obj, function () {
-            $('#jqxgrid').jqxGrid('updatebounddata');
-            $("#window").jqxWindow("close");
-        });
-    })
-    $("#cancel").jqxButton({width: '90px', height: '30'});
-    $("#cancel").on('click', function () {
-        $("#window").jqxWindow("close");
-    })
 
-    var source = {
-        datatype: "json",
-        datafields: [
-            {name: 'id', type: 'int'},
-            {name: 'name', type: 'string'}
-        ],
-        id: 'id',
-        url: url
-    };
-
-    var dataAdapter = new $.jqx.dataAdapter(source, {
-        downloadComplete: function (data, status, xhr) {
-        },
-        loadComplete: function (data) {
-        },
-        loadError: function (xhr, status, error) {
-        }
-    });
-    $("#jqxgrid").jqxGrid({
-        width: 740,
-        height: 500,
-        source: dataAdapter,
-        sortable: true,
-        altrows: true,
-        columns: [
-            {
-                text: 'Id',
-                datafield: 'id',
-                width: 50
+        var dataAdapter = new $.jqx.dataAdapter(source, {
+            downloadComplete: function (data, status, xhr) {
             },
-            {
-                text: 'Название',
-                datafield: 'name',
-                cellsalign: 'left',
-                align: 'left',
-                width: 200
+            loadComplete: function (data) {
+            },
+            loadError: function (xhr, status, error) {
             }
-        ]
-    });
+        });
+        $("#jqxgrid").jqxGrid({
+            width: 740,
+            height: 500,
+            source: dataAdapter,
+            sortable: true,
+            altrows: true,
+            columns: [
+                {
+                    text: 'Id',
+                    datafield: 'id',
+                    width: 50
+                },
+                {
+                    text: 'Название',
+                    datafield: 'name',
+                    cellsalign: 'left',
+                    align: 'left',
+                    width: 200
+                }
+            ]
+        });
+    }());
+    function unload() {
+        $("#catwindow").jqxWindow('destroy');
+    }
 </script>
