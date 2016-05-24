@@ -14,7 +14,7 @@ function route() {
     if (url.indexOf('#!') > 0) {
         var path;
         if (url.indexOf('?') > 0)
-            path = url.substring(url.indexOf('#!') + 1, url.indexOf('?'));
+            path = url.substring(url.indexOf('#!') + 2, url.indexOf('?'));
         else path = url.substring(url.indexOf('!') + 1);
         loadToContent(path);
     } else loadToContent('home')
