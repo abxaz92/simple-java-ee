@@ -1,6 +1,7 @@
 package local.diplom.service.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import local.diplom.service.model.SaleProduct;
 import local.diplom.service.service.ProductService;
 import local.diplom.service.model.Product;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
@@ -50,8 +51,8 @@ public class ProductController {
 
     @POST
     @Path("/sell/{productId}")
-    public void sell(@PathParam("productId") Long productId) throws Exception {
-        productService.sell(productId);
+    public void sell(SaleProduct saleProduct) throws Exception {
+        productService.sell(saleProduct);
     }
 
     @PUT

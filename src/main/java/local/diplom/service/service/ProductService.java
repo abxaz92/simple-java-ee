@@ -80,7 +80,7 @@ public class ProductService extends AbstractDAO<Product> {
             if (category == null)
                 query = em.createNamedQuery(tablename + ".getAll", Product.class);
             else {
-                query = em.createQuery("SELECT p FROM " + tablename + " p WHERE amount > 0 AND category_id = " + category );
+                query = em.createQuery("SELECT p FROM " + tablename + " p WHERE amount > 0 AND category_id = " + category);
             }
             if (skip != null)
                 query.setFirstResult(skip);
@@ -116,8 +116,8 @@ public class ProductService extends AbstractDAO<Product> {
         }
     }
 
-    public void sell(long productId) throws Exception {
-        Product product = findById(productId);
+    public void sell(SaleProduct saleProduct) throws Exception {
+        Product product = findById(saleProduct.getProductId());
         if (product == null) {
             throw exception(Response.Status.NOT_ACCEPTABLE, "Товара нет в наличаи");
         }
@@ -126,8 +126,6 @@ public class ProductService extends AbstractDAO<Product> {
         }
         try {
             utx.begin();
-            SaleProduct saleProduct = new SaleProduct();
-            saleProduct.setProductId(product.getId());
             if (product.getCategory().getMarkup() != 0) {
                 saleProduct.setCost(product.getCost() + (product.getCost() * product.getCategory().getMarkup() / 100));
             } else {

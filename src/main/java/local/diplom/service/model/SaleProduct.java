@@ -17,6 +17,9 @@ public class SaleProduct implements EntityInterface {
     private String name;
     private Long productId;
     private double cost;
+    private String fio;
+    private String phone;
+    private String address;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -50,5 +53,29 @@ public class SaleProduct implements EntityInterface {
 
     public void setCost(double cost) {
         this.cost = cost;
+    }
+
+    public String getFio() {
+        return fio;
+    }
+
+    public void setFio(String fio) {
+        this.fio = fio;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

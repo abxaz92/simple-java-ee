@@ -495,18 +495,40 @@ textarea {
     position: relative;
 }
 
-.buy_page button {
+.buy_page .tpl {
+    float: left;
     position: relative;
-    top: 170px;
-    left: 450px;
+    border: none;
+    margin: -5% 0px 0px 30%;
+}
+
+.buy_page h2 {
+    position: relative;
+    font-size: 25pt;
+    margin: 0% 0% 5% auto;
+    color: #3190C5;
+    top: 0px;
+    left: 0px;
+}
+
+.buy_page .form {
+    width: 50%;
+    height: 200px;
+    margin: 25% 0% 0% 30%;
+    border-top: 1px solid #000;
+}
+
+.buy_page button {
     width: 150px;
+    margin: 5% 0px 0px 30%;
 }
 
-.buy_page table {
-    position: absolute;
-    left: 330px;
+.buy_page input{
+    width: 340px;
+    border-radius: 6px;
+    height: 25px;
+    margin: 20px 0px 0px -80px;
 }
-
 .hhhh {
     font-size: 40pt;
     position: relative;

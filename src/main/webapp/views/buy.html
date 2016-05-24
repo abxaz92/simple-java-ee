@@ -1,28 +1,37 @@
-<div id="product">
+<div id="product" class="buy_page">
+</div>
+
+<div class="buy_page">
+    <div class="form">
+        <div><label>ФИО</label> <input type="text" id="fio"/></div>
+        <div><label>Адрес</label> <input type="text" id="address"/></div>
+        <div><label>Телефон</label> <input type="text" id="phone"/></div>
+    </div>
 </div>
 
 <script defer="defer">
-    Controller.get('/rest/product/147', function (e) {
+    Controller.get('/rest/product/' + getParameter('product'), function (e) {
         e.image = host + "/rest/image/" + e.image;
         drawContent(e, "productTmpl", "product");
     });
+    var isAccepted = confirm("Отправить запрос на сервер?");
+
+    Controller.
+
 </script>
 
 <script id="productTmpl" type="text/x-jquery-tmpl">
-	<div class="tpl">
+	<div class="tpl" class="buy">
+	    <h2 class="name">${name}</h2>
 		<div class="images">
 			<img  class="front" src="${image}">
 		</div>
-		<h2 class="name">${name}</h2>
 		<h1 class="price">${cost}</h1>
 		<div class="more_info m_pos">
 			{{if $item.data.description && $item.data.description != ""}}
 				<p class="desc">${description}</p>
 			{{/if}}
-			{{if $item.data.resolution && $item.data.resolution != ""}}
-				<p>Разрешение: ${resolution}</p>
-			{{/if}}
 		</div>
-		<button class="buy pos buybtn" onclick="currPhone=this.parentNode; window.location.href = '#!' + 'views/buy?product=${id}'">Купить</button>
+		<button class="btn" onclick="currPhone=this.parentNode; window.location.href = '#!' + 'views/buy?product=${id}'">Заказать</button>
 	</div>
 </script>
