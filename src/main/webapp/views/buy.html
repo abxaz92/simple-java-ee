@@ -3,9 +3,9 @@
 
 <div class="buy_page">
     <div class="form">
-        <div><label>ФИО</label> <input type="text" id="fio"/></div>
-        <div><label>Адрес</label> <input type="text" id="address"/></div>
-        <div><label>Телефон</label> <input type="text" id="phone"/></div>
+        <div><label>ФИО</label> <input id="fio" type="text" id="fio"/></div>
+        <div><label>Адрес</label> <input id="address" type="text" id="address"/></div>
+        <div><label>Телефон</label> <input id="phone" type="text" id="phone"/></div>
     </div>
 </div>
 
@@ -14,9 +14,23 @@
         e.image = host + "/rest/image/" + e.image;
         drawContent(e, "productTmpl", "product");
     });
-    var isAccepted = confirm("Отправить запрос на сервер?");
 
-    Controller.
+
+    function buy() {
+        var isAccepted = confirm("Отправить запрос на сервер?");
+        if (isAccepted) {
+            var sale = {
+                productId: getParameter('product'),
+                fio: $('#fio').val(),
+                address: $('#address').val(),
+                phone: $('#phone').val()
+            };
+            console.log(sale);
+            Controller.post("/rest/product/sell", sale, function (e) {
+                console.log(e);
+            });
+        }
+    }
 
 </script>
 
@@ -32,6 +46,7 @@
 				<p class="desc">${description}</p>
 			{{/if}}
 		</div>
-		<button class="btn" onclick="currPhone=this.parentNode; window.location.href = '#!' + 'views/buy?product=${id}'">Заказать</button>
+		<button id="buy" onClick='buy()' class="btn" onclick="currPhone=this.parentNode; window.location.href = '#!' + 'views/buy?product=${id}'">Заказать</button>
 	</div>
+
 </script>

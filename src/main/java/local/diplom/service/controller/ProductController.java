@@ -50,7 +50,7 @@ public class ProductController {
     }
 
     @POST
-    @Path("/sell/{productId}")
+    @Path("/sell")
     public void sell(SaleProduct saleProduct) throws Exception {
         productService.sell(saleProduct);
     }
