@@ -3,14 +3,17 @@ package local.diplom.service.model;
 import javax.persistence.*;
 
 /**
- * Created by david on 14.05.16.
+ * Сущность изображения
  */
 @Entity
 public class Image {
+    // Идентификатор изображения целочисленное число
     private Long id;
+    // Строка тип изображения
     private String mimeType;
     @Lob
     @Basic(fetch = FetchType.LAZY)
+    // файл изображения
     protected byte[] imageFile;
 
     @Id

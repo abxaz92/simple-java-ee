@@ -5,20 +5,35 @@ import local.diplom.service.abstracts.EntityInterface;
 import javax.persistence.*;
 
 /**
- * Created  by david on 06.03.16
+ * Сущность Проданного Товара
  */
 @Entity
+// Запрос для получения всех проданных товаров из БД
 @NamedQuery(name = "SaleProduct.getAll", query = "SELECT c from SaleProduct c")
 @NamedNativeQuery(name = "SaleProduct.complex",
         query = "select s.id, s.productId, s.cost, p.name AS name from saleproduct s, product p where s.productId = p.id",
         resultClass = SaleProduct.class)
 public class SaleProduct implements EntityInterface {
+
+    // Идентификатор сущности целочисленное число
     private Long id;
+
+    // Название сущности
     private String name;
+
+    // Идентификато продукта
     private Long productId;
+
+    // стоимость продукта
     private double cost;
+
+    // ФИО покупателя
     private String fio;
+
+    // номер телефона покупателя
     private String phone;
+
+    // адрес покупателя
     private String address;
 
     @Id

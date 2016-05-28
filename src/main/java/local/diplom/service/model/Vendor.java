@@ -8,9 +8,13 @@ import javax.persistence.*;
  * Created  by david on 17.04.16
  */
 @Entity
+// Запрос для получения всех производителей из БД
 @NamedQuery(name = "Vendor.getAll", query = "SELECT c from Vendor c")
 public class Vendor implements EntityInterface {
+    // Идентификатор сущности целочисленное число
     private Long id;
+
+    // Название сущности
     private String name;
 
     @Id

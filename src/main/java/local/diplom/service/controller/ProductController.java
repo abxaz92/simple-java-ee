@@ -18,24 +18,26 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created  by david on 21.02.16
+ * Контроллер продуктов
  */
-
-@Path("/product")
-@Produces(MediaType.APPLICATION_JSON)
+@Path("/product") // Путь на сайте
+@Produces(MediaType.APPLICATION_JSON) // тип возврщаемых данных JSON
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class ProductController {
 
     @Inject
+    // Подключение к таблице продуктов
     private ProductService productService;
 
-    @GET
+    @GET // Тип запроса GET
     @Path("/{id}")
+    // Метод получения сущности по id
     public Product getById(@PathParam("id") Long id) {
         return productService.findById(id);
     }
 
-    @GET
+    @GET // Тип запроса GET
+    // метод получения списка сощностей
     public Object getAll(@QueryParam("skip") Integer skip,
                          @QueryParam("limit") Integer limit,
                          @QueryParam("count") String count,
@@ -43,26 +45,30 @@ public class ProductController {
         return productService.findAll(skip, limit, count, category);
     }
 
-    @POST
+    @POST // Тип запроса POST(добавление)
+    // добавление сущности в БД
     public Product post(Product product) throws Exception {
         productService.insert(product);
         return product;
     }
 
-    @POST
+    @POST // Тип запроса POST(добавление)
     @Path("/sell")
+    // Метод продажи товара
     public void sell(SaleProduct saleProduct) throws Exception {
         productService.sell(saleProduct);
     }
 
-    @PUT
+    @PUT // Тип запроса PUT(изменение)
     @Path("/{id}")
+    // Метод обновления сущности в БД
     public void put(@PathParam("id") Long id, JsonNode jsonNode) throws Exception {
         productService.update(id, jsonNode);
     }
 
-    @DELETE
+    @DELETE // Тип запроса DELETE(удаление)
     @Path("/{id}")
+    // метод удаления сущности из БД
     public void deleteById(@PathParam("id") Long id) throws Exception {
         productService.deleteById(id);
     }

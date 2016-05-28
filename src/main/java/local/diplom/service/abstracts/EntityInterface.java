@@ -1,7 +1,8 @@
 package local.diplom.service.abstracts;
 
 /**
- * Created by david on 22.02.16 .
+ * Интерфейс сущности, от которой все остальные сущности наследуются
+ * чтобы каркас работы с БД мог с ними работать
  */
 public interface EntityInterface {
 

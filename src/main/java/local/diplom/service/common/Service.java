@@ -7,9 +7,10 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.Iterator;
 
 /**
- * Creator david on 27.02.16.
+ * Клас для общих методов
  */
 public class Service {
+    // JSON парсер
     public static final ObjectMapper MAPPER = new ObjectMapper();
 
     public static JsonNode merge(JsonNode mainNode, JsonNode updateNode) {

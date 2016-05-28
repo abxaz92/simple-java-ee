@@ -12,40 +12,46 @@ import javax.ws.rs.core.MediaType;
 import java.util.List;
 
 /**
- * Created  by david on 17.04.16
+ * Контроллер производителей
  */
-@Path("vendor")
-@Produces(MediaType.APPLICATION_JSON)
+@Path("vendor") // Путь на сайте
+@Produces(MediaType.APPLICATION_JSON) // тип возврщаемых данных JSON
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class VendorController {
     @Inject
+    // Подключение к таблице производителей
     private VendorService vendorService;
 
-    @GET
+    @GET // Тип запроса GET
     @Path("/{id}")
+    // Метод получения сущности по id
     public Vendor getById(@PathParam("id") Long id) {
         return vendorService.findById(id);
     }
 
-    @GET
+    @GET // Тип запроса GET
+    // метод получения списка сощностей
     public List<Vendor> getAll() {
         return vendorService.findAll();
     }
 
-    @POST
+    @POST // Тип запроса POST(добавление)
+    // добавление сущности в БД
     public void post(Vendor Vendor) throws Exception {
         vendorService.insert(Vendor);
     }
 
-    @PUT
+    @PUT // Тип запроса PUT(изменение)
     @Path("/{id}")
+    // Метод обновления сущности в БД
     public void put(@PathParam("id") Long id, JsonNode jsonNode) throws Exception {
         vendorService.update(id, jsonNode);
     }
 
 
-    @DELETE
+    @DELETE // Тип запроса DELETE(удаление)
     @Path("/{id}")
+    // метод удаления сущности из БД
     public void deleteById(@PathParam("id") Long id) throws Exception {
         vendorService.deleteById(id);
     }

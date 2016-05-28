@@ -5,13 +5,21 @@ import local.diplom.service.abstracts.EntityInterface;
 import javax.persistence.*;
 
 /**
- * Created by david on 27.02.16.
+ * Сущность категории
  */
 @Entity
+
+// Запрос для получения всех категорий из БД
 @NamedQuery(name = "ProductCategory.getAll", query = "SELECT c from ProductCategory c")
 public class ProductCategory implements EntityInterface {
+
+    // Идентификатор категорий целочисленное число
     private Long id;
+
+    // строка нзвания категрии
     private String name;
+
+    // наценка
     private double markup;
 
     @Id

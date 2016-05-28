@@ -11,28 +11,33 @@ import javax.ejb.TransactionManagementType;
 import javax.inject.Inject;
 
 /**
- * Created  by david on 09.04.16
+ * Сервис для получения текущего пользователя
  */
 @Stateless
 @TransactionManagement(TransactionManagementType.BEAN)
 public class ContextService {
 
     @Resource
-    private SessionContext context;
+    private SessionContext context; // контекст пользователя
     @Inject
-    private UsersService usersService;
+    private UsersService usersService; // Сервис для получения по id пользователя из базы данных
+
+    // метод для получения имени текущего пользователя
     public String getCurrentUserName() {
         return context.getCallerPrincipal().getName();
     }
 
+    // проверка является ли пользователь админом
     public boolean isCurrentuserAdmin() {
         return context.isCallerInRole("ADMIN");
     }
 
+    // проверка принадлежности пользователя к роли
     public boolean isCurrentuserInRole(String roleName) {
         return context.isCallerInRole(roleName);
     }
 
+    // метод для получения сущности текущего пользователя
     public User getCurrentUser() {
         return usersService.findById(getCurrentUserName());
     }

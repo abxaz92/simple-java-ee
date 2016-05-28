@@ -6,7 +6,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
 /**
- * Created  by david on 06.03.16
+ * Класс которые предоставляет интерфейс для обработки ошибок
  */
 public class ExceptionFactory {
     private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(ExceptionFactory.class);

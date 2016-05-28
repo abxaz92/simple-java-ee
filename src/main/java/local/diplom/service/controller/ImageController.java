@@ -17,7 +17,7 @@ import javax.ws.rs.core.Response.Status;
 import java.sql.SQLException;
 
 /**
- * Created by david on 14.05.16.
+ * Контроллер который достает изображения из БД, по идентификатору
  */
 @Path("/image")
 @TransactionManagement(TransactionManagementType.CONTAINER)
@@ -25,22 +25,25 @@ public class ImageController {
     private static final Logger log = LoggerFactory.getLogger(SaleProductController.class);
 
     @PersistenceContext
-    protected EntityManager em;
+    protected EntityManager em; // подключение к БД
     @Inject
-    private ProductService productService;
+    private ProductService productService; // Сервис товаров
 
     @GET
     @Path("{id}")
+    // Метод, который достает изображения из БД, по идентификатору
     public Response getImage(@PathParam("id") String id) throws SQLException {
-        Image image = em.find(Image.class, Long.parseLong(id));
-        if (image == null)
+        Image image = em.find(Image.class, Long.parseLong(id)); // достаем изображение из БД
+        if (image == null) // если изображения нет в БД, то возвращаем ошибку
             return Response.status(Status.NOT_FOUND).build();
+        // если изображение есть в БД, то возращаем его клиенту
         return Response.ok(image.getImageFile()).header("Content-Type", "image/png").build();
     }
 
     @POST
     @Path("/{id}")
     @Consumes("multipart/form-data")
+    // метод контроллера для добвления в БД изображений
     public void uploadImage(@PathParam("id") Long id, MultipartFormDataInput input) throws Exception {
         productService.uploadImage(id, input);
         log.info("uploaded {}", id);

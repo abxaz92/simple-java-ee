@@ -7,7 +7,7 @@ import javax.ws.rs.ext.Provider;
 import java.io.IOException;
 
 /**
- * Created  by david on 17.04.16
+ *
  */
 @Provider
 public class CORSFilter implements ContainerResponseFilter {

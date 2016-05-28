@@ -5,24 +5,43 @@ import local.diplom.service.abstracts.EntityInterface;
 import javax.persistence.*;
 
 /**
- * Created  by david on 21.02.16
+ * Сущность Товара
  */
 @Entity
 @NamedQueries({
+        // Запрос для получения всех товаров из БД
         @NamedQuery(name = "Product.getAll", query = "SELECT c from Product c"),
+
+        // Запрос для получения всех товаров из БД для категории
         @NamedQuery(name = "Product.getByCategory", query = "select c from Product c where c.category.id = :categoryId")
 })
 
 public class Product implements EntityInterface {
-
+    // Идентификатор продукта целочисленное число
     private Long id;
+
+    // строка нзвания продукта
     private String name;
+
+    // строка нзвания брэнда
     private String brand;
+
+    // категория продукта
     private ProductCategory category;
+
+    // количество товаров
     private int amount;
+
+    // стоимость товаров
     private double cost;
+
+    // id изображения в БД
     private String image;
+
+    // Описпние товара
     private String description;
+
+    // Производитель
     private Vendor vendor;
 
     @Id
