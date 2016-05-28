@@ -15,7 +15,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.List;
 
 /**
- * Контроллер продуктов
+ * Контроллер проданных продуктов
  */
 @Path("/secure/sale") // Путь на сайте
 @Produces(MediaType.APPLICATION_JSON) // тип возврщаемых данных JSON

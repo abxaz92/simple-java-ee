@@ -8,7 +8,7 @@ import javax.persistence.Query;
 import java.util.List;
 
 /**
- * Сервис для отпущенных продуктов
+ * Сервис отпущенных продуктов
  */
 @ApplicationScoped
 public class SaleProductService extends AbstractDAO<SaleProduct> {

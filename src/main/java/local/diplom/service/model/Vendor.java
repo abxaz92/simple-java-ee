@@ -5,7 +5,7 @@ import local.diplom.service.abstracts.EntityInterface;
 import javax.persistence.*;
 
 /**
- * Created  by david on 17.04.16
+ * Сущность производителя
  */
 @Entity
 // Запрос для получения всех производителей из БД
