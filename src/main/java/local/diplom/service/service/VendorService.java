@@ -8,15 +8,22 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 /**
- * Created  by david on 17.04.16
+ * Сервис для призводителей
  */
 @ApplicationScoped
 public class VendorService extends AbstractDAO<Vendor> {
-
+    /**
+     * Инициализация от каркаса работы с БД
+     * при инициализации указываем название таблицы и
+     * сущность которую БД должна возвращать
+     */
     public VendorService() {
         super("Vendor", Vendor.class);
     }
 
+    /**
+     * Получение списка отпущенных товаров из БД
+     */
     public List<Vendor> findAll() {
         TypedQuery<Vendor> namedQuery = em.createNamedQuery("Vendor.getAll", Vendor.class);
         return namedQuery.getResultList();

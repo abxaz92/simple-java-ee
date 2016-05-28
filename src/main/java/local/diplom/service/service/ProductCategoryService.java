@@ -23,7 +23,7 @@ public class ProductCategoryService extends AbstractDAO<ProductCategory> {
     }
 
     /**
-     * Получение списка продуктов из БД
+     * Получение списка категорий из БД
      */
     public List<ProductCategory> findAll() {
         TypedQuery<ProductCategory> namedQuery = em.createNamedQuery("ProductCategory.getAll", ProductCategory.class);
