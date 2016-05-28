@@ -125,27 +125,30 @@ public class ProductService extends AbstractDAO<Product> {
         }
     }
 
+    // метод продажи товара
     public void sell(SaleProduct saleProduct) throws Exception {
-        Product product = findById(saleProduct.getProductId());
-        if (product == null) {
+        Product product = findById(saleProduct.getProductId()); // достаем продаваемы товар
+        if (product == null) { // если такого товара нет в бд, то возвращаем ошибку
             throw exception(Response.Status.NOT_ACCEPTABLE, "Товара нет в наличаи");
         }
-        if (product.getAmount() == 0) {
+        if (product.getAmount() == 0) { // если такого товара нет в наличии, то возвращаем ошибку
             throw exception(Response.Status.NOT_ACCEPTABLE, "Товара нет в наличаи");
         }
         try {
-            utx.begin();
-            if (product.getCategory().getMarkup() != 0) {
+            utx.begin(); // начало транзакции
+            if (product.getCategory().getMarkup() != 0) { // если у категории есть наценка, то прибавляем ее
+                // устанавливаем стоимость товара с учетом наценки
                 saleProduct.setCost(product.getCost() + (product.getCost() * product.getCategory().getMarkup() / 100));
             } else {
+                // устанавливаем стоимость товара без учета наценки
                 saleProduct.setCost(product.getCost());
             }
-            em.persist(saleProduct);
-            product.setAmount(product.getAmount() - 1);
-            em.merge(product);
-            utx.commit();
+            em.persist(saleProduct); // добавляем в бд документ отпущенного товара
+            product.setAmount(product.getAmount() - 1); // уменьшаем число оставшихся в наличии товаров
+            em.merge(product); // сохраняем изменения товара в БД
+            utx.commit(); // завершаем транзакцию
         } catch (Exception e) {
-            utx.rollback();
+            utx.rollback(); // в случае ошибки отказываем транзакицю
             e.printStackTrace();
             throw exception(Response.Status.SERVICE_UNAVAILABLE, "Что-то пошло не так");
         }
