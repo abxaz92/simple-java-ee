@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Created  by david on 03.04.16
  */
-@WebServlet("/logout")
+@WebServlet("/rest/secure/logout")
 public class Logout extends HttpServlet {
     public static final Logger LOG = LoggerFactory.getLogger(Logout.class);
     private static final long serialVersionUID = 1L;
