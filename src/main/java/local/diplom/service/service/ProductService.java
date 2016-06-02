@@ -17,6 +17,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -143,6 +144,7 @@ public class ProductService extends AbstractDAO<Product> {
                 // устанавливаем стоимость товара без учета наценки
                 saleProduct.setCost(product.getCost());
             }
+            saleProduct.setDate(System.currentTimeMillis());
             em.persist(saleProduct); // добавляем в бд документ отпущенного товара
             product.setAmount(product.getAmount() - 1); // уменьшаем число оставшихся в наличии товаров
             em.merge(product); // сохраняем изменения товара в БД

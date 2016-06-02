@@ -36,6 +36,8 @@ public class SaleProduct implements EntityInterface {
     // адрес покупателя
     private String address;
 
+    private Long date;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long getId() {
@@ -92,5 +94,13 @@ public class SaleProduct implements EntityInterface {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public Long getDate() {
+        return date;
+    }
+
+    public void setDate(Long date) {
+        this.date = date;
     }
 }
