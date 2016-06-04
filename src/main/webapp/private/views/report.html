@@ -10,11 +10,14 @@
             C:<input id="salesstart" type="date" name="start">
             По:<input id="salesend" type="date" name="end">
             <input type="button" onclick="countSales()" value="Отправить">
+            <canvas id="myChart" width="1050" height="450" style="width: 1050px;height: 450px;"></canvas>
         </form>
     </div>
     <div id="sellers" class="tabcontent">
-        <h3>sellers</h3>
-        <p>London is the capital city of England.</p>
+        C:<input id="sellstart" type="date" name="start">
+        По:<input id="sellend" type="date" name="end">
+        <input type="button" onclick="countSells()" value="Отправить">
+        <canvas id="sellChart" width="1050" height="450" style="width: 1050px;height: 450px;"></canvas>
     </div>
 </div>
 <script defer="defer">
@@ -23,11 +26,44 @@
     var dateEnd = new Date();
     $('#salesstart').val(getFormattedDate(dateStart));
     $('#salesend').val(getFormattedDate(dateEnd));
+
+    $('#sellstart').val(getFormattedDate(dateStart));
+    $('#sellend').val(getFormattedDate(dateEnd));
+
+
     function countSales() {
         var s = new Date($('#salesstart').val()).getTime();
         var e = new Date($('#salesend').val()).getTime();
         Controller.get('/rest/report/count/sales?start=' + s + "&end=" + e, function (e) {
             console.log(e);
+            var labels = [];
+            var data = [];
+            for (var i = 0; i < e.length; i++) {
+                labels.push(e[i][1]);
+                data.push(e[i][2]);
+            }
+            console.log(labels);
+            $('#myChart').empty();
+            var ctx = document.getElementById("myChart");
+            drawChart(labels, data, "Продано", ctx);
+        });
+    }
+
+    function countSells() {
+        var s = new Date($('#sellstart').val()).getTime();
+        var e = new Date($('#sellend').val()).getTime();
+        Controller.get('/rest/report/count/sellers?start=' + s + "&end=" + e, function (e) {
+            console.log(e);
+            var labels = [];
+            var data = [];
+            for (var i = 0; i < e.length; i++) {
+                labels.push(e[i][0]);
+                data.push(e[i][2]);
+            }
+            console.log(labels);
+            $('#sellChart').empty();
+            var ctx = document.getElementById("sellChart");
+            drawChart(labels, data, "Куплено", ctx);
         });
     }
 
