@@ -14,6 +14,27 @@ public class ReportService {
     @PersistenceContext
     protected EntityManager em;
 
+    public Object countTotalSumm(Long start, Long end) {
+        Query query = em.createNativeQuery("SELECT SUM(cost) AS TotalSum FROM SaleProduct where date BETWEEN :start AND :end ;");
+        query.setParameter("start", start);
+        query.setParameter("end", end);
+        return query.getSingleResult();
+    }
+
+    public Object countAvgSale(Long start, Long end) {
+        Query query = em.createNativeQuery("SELECT AVG(cost) AS AvgCost FROM SaleProduct where date BETWEEN :start AND :end ;");
+        query.setParameter("start", start);
+        query.setParameter("end", end);
+        return query.getSingleResult();
+    }
+
+    public Object countMaxSale(Long start, Long end) {
+        Query query = em.createNativeQuery("SELECT MAX(cost) AS MaxCost FROM SaleProduct where date BETWEEN :start AND :end ;");
+        query.setParameter("start", start);
+        query.setParameter("end", end);
+        return query.getSingleResult();
+    }
+
     public Object countSales(Long start, Long end) {
         Query query = em.createNativeQuery("SELECT s.productId as id, p.name, COUNT(s.productId) AS Count\n" +
                 "  FROM SaleProduct s\n" +

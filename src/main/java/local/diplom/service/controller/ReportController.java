@@ -22,6 +22,24 @@ public class ReportController {
     private ReportService reportService;
 
     @GET
+    @Path("/summ")
+    public Object countTotalSumm(@QueryParam("start") Long start, @QueryParam("end") Long end) {
+        return reportService.countTotalSumm(start, end);
+    }
+
+    @GET
+    @Path("/avg/sale")
+    public Object countAvgSale(@QueryParam("start") Long start, @QueryParam("end") Long end) {
+        return reportService.countAvgSale(start, end);
+    }
+
+    @GET
+    @Path("/max/sale")
+    public Object countMaxSale(@QueryParam("start") Long start, @QueryParam("end") Long end) {
+        return reportService.countMaxSale(start, end);
+    }
+
+    @GET
     @Path("/count/sales")
     public Object countSales(@QueryParam("start") Long start, @QueryParam("end") Long end) {
         return reportService.countSales(start, end);
