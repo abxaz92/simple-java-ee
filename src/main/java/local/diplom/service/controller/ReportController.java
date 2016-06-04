@@ -14,7 +14,7 @@ import javax.ws.rs.core.MediaType;
 /**
  * Created by david on 04.06.16.
  */
-@Path("/secure/report") // Путь на сайте
+@Path("/report") // Путь на сайте
 @Produces(MediaType.APPLICATION_JSON) // тип возврщаемых данных JSON
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class ReportController {
