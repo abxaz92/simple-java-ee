@@ -92,7 +92,6 @@ public class SaleProductController {
             int randomNum = RAND.nextInt(products.size());
             int randomPhone = RAND.nextInt(5);
             int randomAddr = RAND.nextInt(5);
-            int randomFio = RAND.nextInt(5);
             int randomDay = RAND.nextInt(28) + 1;
             int randomMonth = RAND.nextInt(6 - 4 + 1) + 4;
             LocalDate date = LocalDate.of(2016, randomMonth, randomDay);
@@ -100,7 +99,7 @@ public class SaleProductController {
             Product product = products.get(randomNum);
             saleProduct.setProductId(product.getId());
             saleProduct.setCost(product.getCost());
-            saleProduct.setAddress(FIO.get(randomFio));
+            saleProduct.setFio(FIO.get(randomPhone));
             saleProduct.setPhone(PHONE.get(randomPhone));
             saleProduct.setAddress(ADDR.get(randomAddr));
             Instant instant = date.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
