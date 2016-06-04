@@ -28,6 +28,8 @@
             console.log(sale);
             Controller.post("/rest/product/sell", sale, function (e) {
                 console.log(e);
+                alert("Покупка оформлена");
+                window.location.href = "/";
             });
         }
     }
