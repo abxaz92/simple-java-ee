@@ -102,7 +102,8 @@ textarea {
     top: 30px;
     position: relative;
 }
-.menu_container{
+
+.menu_container {
 
 }
 
@@ -526,12 +527,13 @@ textarea {
     margin: 5% 0px 0px 30%;
 }
 
-.buy_page input{
+.buy_page input {
     width: 340px;
     border-radius: 6px;
     height: 25px;
     margin: 20px 0px 0px -80px;
 }
+
 .hhhh {
     font-size: 40pt;
     position: relative;
@@ -583,7 +585,9 @@ textarea {
 }
 
 /* Float the list items side by side */
-.report ul.tab li {float: left;}
+.report ul.tab li {
+    float: left;
+}
 
 /* Style the links inside the list items */
 .report ul.tab li a {

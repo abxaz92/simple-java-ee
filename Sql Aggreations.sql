@@ -1,5 +1,5 @@
 -- Сумма за период
-	SELECT SUM(cost) AS TotalSum FROM SaleProduct where date BETWEEN 146611080000 AND 1460754000000;
+	SELECT SUM(cost) AS TotalSum FROM SaleProduct where date BETWEEN 1464998400000 AND 2929996800000;
 
 -- Средняя стоимость покупок
   SELECT AVG(cost) AS AvgCost FROM SaleProduct where date BETWEEN 146611080000 AND 1460754000000;
@@ -19,7 +19,7 @@
 -- Самый активный покупатель
   SELECT s.fio as id, s.phone, COUNT(s.phone) AS Count, SUM(s.cost) AS SUMM
   FROM SaleProduct s
-  where date BETWEEN 146611080000 AND 1460754000000
+  where date BETWEEN 1464998400000 AND 2929996800000
   GROUP BY s.phone, fio
   ORDER BY SUMM DESC;
 

@@ -1,3 +1,12 @@
-<meta name="fragment" content="!">
-<!--<img class="sber" src="/resources/img/sber.png">
-<img class="sber" src="/resources/img/visa.png">-->
+<div class="summ">
+    <h1 id="summ"></h1>
+    <span class="rub"></span>
+</div>
+<script defer="defer">
+    var dateStart = new Date(getFormattedDate(new Date())).getTime();
+
+    var dateEnd = dateStart * 2;
+    Controller.get('/rest/report/summ?start=' + dateStart + "&end=" + dateEnd, function (e) {
+        $('#summ').text("Прибыль : " + e || 0);
+    });
+</script>
