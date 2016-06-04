@@ -12,7 +12,8 @@
                 {name: 'cost', type: 'float'},
                 {name: 'fio', type: 'string'},
                 {name: 'phone', type: 'string'},
-                {name: 'address', type: 'string'}
+                {name: 'address', type: 'string'},
+                {name: 'date', type: 'date'}
             ],
             id: 'id',
             url: url
@@ -50,28 +51,36 @@
                     datafield: 'cost',
                     cellsalign: 'left',
                     align: 'left',
-                    width: 50
+                    width: 70
                 },
                 {
                     text: 'Покупатель',
                     datafield: 'fio',
                     cellsalign: 'left',
                     align: 'left',
-                    width: 350
+                    width: 300
                 },
                 {
                     text: 'Н.т покупателя',
                     datafield: 'phone',
                     cellsalign: 'left',
                     align: 'left',
-                    width: 150
+                    width: 110
                 },
                 {
                     text: 'Адрес покупателя',
                     datafield: 'address',
                     cellsalign: 'left',
                     align: 'left',
-                    width: 380
+                    width: 300
+                },
+                {
+                    text: 'Дата',
+                    datafield: 'date',
+                    cellsalign: 'left',
+                    align: 'left',
+                    cellsformat: 'd',
+                    width: 130
                 }
             ]
         });
