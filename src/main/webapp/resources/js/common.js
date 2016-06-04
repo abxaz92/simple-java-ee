@@ -60,11 +60,11 @@ function getJson(url, callback) {
 }
 Controller = {
     get: function (url, callback) {
-        $.ajax({
+      return $.ajax({
             url: host + url,
             type: 'GET',
             contentType: "application/json; charset=utf-8",
-            success: callback
+            success: callback || null
         });
     },
     post: function (url, data, callback) {

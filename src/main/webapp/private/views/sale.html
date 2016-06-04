@@ -3,87 +3,106 @@
 <script defer="defer">
     (function () {
         var url = host + "/rest/secure/sale";
-
-        var source = {
-            datatype: "json",
-            datafields: [
-                {name: 'id', type: 'int'},
-                {name: 'productId', type: 'string'},
-                {name: 'cost', type: 'float'},
-                {name: 'fio', type: 'string'},
-                {name: 'phone', type: 'string'},
-                {name: 'address', type: 'string'},
-                {name: 'date', type: 'date'}
-            ],
-            id: 'id',
-            url: url
-        };
-
-        var dataAdapter = new $.jqx.dataAdapter(source, {
-            downloadComplete: function (data, status, xhr) {
-            },
-            loadComplete: function (data) {
-            },
-            loadError: function (xhr, status, error) {
-            }
+        var $getCount = Controller.get("/rest/secure/sale" + "?count");
+        $getCount.then(function (count) {
+            console.log(count);
+            initGrid(count);
         });
-        $("#jqxgrid").jqxGrid({
-            width: 1080,
-            height: 500,
-            source: dataAdapter,
-            sortable: true,
-            altrows: true,
-            columns: [
-                {
-                    text: 'Id',
-                    datafield: 'id',
-                    width: 50
+        var initGrid = function (count) {
+            var source = {
+                datatype: "json",
+                datafields: [
+                    {name: 'id', type: 'int'},
+                    {name: 'productId', type: 'string'},
+                    {name: 'cost', type: 'float'},
+                    {name: 'fio', type: 'string'},
+                    {name: 'phone', type: 'string'},
+                    {name: 'address', type: 'string'},
+                    {name: 'date', type: 'date'}
+                ],
+                id: 'id',
+                url: url,
+                beforeprocessing: function (data) {
+                    source.totalrecords = count;
                 },
-                {
-                    text: 'Id продукта',
-                    datafield: 'productId',
-                    cellsalign: 'left',
-                    align: 'left',
-                    width: 100
+                async: false,
+            };
+
+            var dataAdapter = new $.jqx.dataAdapter(source, {
+                downloadComplete: function (data, status, xhr) {
                 },
-                {
-                    text: 'Цена',
-                    datafield: 'cost',
-                    cellsalign: 'left',
-                    align: 'left',
-                    width: 70
+                loadComplete: function (data) {
                 },
-                {
-                    text: 'Покупатель',
-                    datafield: 'fio',
-                    cellsalign: 'left',
-                    align: 'left',
-                    width: 300
+                loadError: function (xhr, status, error) {
                 },
-                {
-                    text: 'Н.т покупателя',
-                    datafield: 'phone',
-                    cellsalign: 'left',
-                    align: 'left',
-                    width: 110
-                },
-                {
-                    text: 'Адрес покупателя',
-                    datafield: 'address',
-                    cellsalign: 'left',
-                    align: 'left',
-                    width: 300
-                },
-                {
-                    text: 'Дата',
-                    datafield: 'date',
-                    cellsalign: 'left',
-                    align: 'left',
-                    cellsformat: 'd',
-                    width: 130
+                beforeSend: function (xhr, settings) {
+                    settings.url = url + "?skip=" + Math.floor(this.data.recordstartindex)
+                            + "&limit=" + Math.floor(this.data.recordendindex);
                 }
-            ]
-        });
+            });
+            $("#jqxgrid").jqxGrid({
+                width: 1080,
+                height: 500,
+                source: dataAdapter,
+                sortable: true,
+                altrows: true,
+                virtualmode: true,
+                columnsresize: true,
+                rendergridrows: function (params) {
+                    return params.data;
+                },
+                columns: [
+                    {
+                        text: 'Id',
+                        datafield: 'id',
+                        width: 50
+                    },
+                    {
+                        text: 'Id продукта',
+                        datafield: 'productId',
+                        cellsalign: 'left',
+                        align: 'left',
+                        width: 100
+                    },
+                    {
+                        text: 'Цена',
+                        datafield: 'cost',
+                        cellsalign: 'left',
+                        align: 'left',
+                        width: 70
+                    },
+                    {
+                        text: 'Покупатель',
+                        datafield: 'fio',
+                        cellsalign: 'left',
+                        align: 'left',
+                        width: 300
+                    },
+                    {
+                        text: 'Н.т покупателя',
+                        datafield: 'phone',
+                        cellsalign: 'left',
+                        align: 'left',
+                        width: 110
+                    },
+                    {
+                        text: 'Адрес покупателя',
+                        datafield: 'address',
+                        cellsalign: 'left',
+                        align: 'left',
+                        width: 300
+                    },
+                    {
+                        text: 'Дата',
+                        datafield: 'date',
+                        cellsalign: 'left',
+                        align: 'left',
+                        cellsformat: 'd',
+                        width: 130
+                    }
+                ]
+            });
+        }
     }());
     function unload() {
     }
