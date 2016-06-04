@@ -26,4 +26,16 @@ public class ReportService {
         query.setParameter("end", end);
         return query.getResultList();
     }
+
+    public Object countSellers(Long start, Long end) {
+        Query query = em.createNativeQuery("  SELECT s.fio as id, s.phone, COUNT(s.phone) AS Count\n" +
+                "  FROM SaleProduct s\n" +
+                "  where date BETWEEN :start AND :end \n" +
+                "  GROUP BY s.phone, fio\n" +
+                "  ORDER BY Count DESC;");
+        query.setParameter("start", start);
+        query.setParameter("end", end);
+        return query.getResultList();
+    }
+
 }

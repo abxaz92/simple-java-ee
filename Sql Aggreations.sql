@@ -20,7 +20,7 @@
   SELECT s.fio as id, s.phone, COUNT(s.phone) AS Count
   FROM SaleProduct s
   where date BETWEEN 146611080000 AND 1460754000000
-  GROUP BY s.phone
+  GROUP BY s.phone, fio
   ORDER BY Count DESC;
 
 

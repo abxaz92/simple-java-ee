@@ -26,4 +26,10 @@ public class ReportController {
     public Object countSales(@QueryParam("start") Long start, @QueryParam("end") Long end) {
         return reportService.countSales(start, end);
     }
+
+    @GET
+    @Path("/count/sellers")
+    public Object countSellers(@QueryParam("start") Long start, @QueryParam("end") Long end) {
+        return reportService.countSellers(start, end);
+    }
 }
