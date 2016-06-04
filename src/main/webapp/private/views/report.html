@@ -2,7 +2,8 @@
     <div>
         <ul class="tab">
             <li><a class="tablinks" onclick="openTab(event, 'sales')">Количество продаж по товарам</a></li>
-            <li><a class="tablinks" onclick="openTab(event, 'sellers')">Активность клиентов</a></li>
+            <li><a class="tablinks" onclick="openTab(event, 'sellers')">Активность по покупкам</a></li>
+            <li><a class="tablinks" onclick="openTab(event, 'sellersSumm')">Активность по сумме</a></li>
         </ul>
     </div>
     <div id="sales" class="tabcontent">
@@ -19,6 +20,13 @@
         <input type="button" onclick="countSells()" value="Отправить">
         <canvas id="sellChart" width="1050" height="450" style="width: 1050px;height: 450px;"></canvas>
     </div>
+
+    <div id="sellersSumm" class="tabcontent">
+        C:<input id="sellstartSumm" type="date" name="start">
+        По:<input id="sellendSumm" type="date" name="end">
+        <input type="button" onclick="countSellsSumm()" value="Отправить">
+        <canvas id="sellChartSumm" width="1050" height="450" style="width: 1050px;height: 450px;"></canvas>
+    </div>
 </div>
 <script defer="defer">
     openTab(document.getElementById("sales"), 'sales');
@@ -30,6 +38,8 @@
     $('#sellstart').val(getFormattedDate(dateStart));
     $('#sellend').val(getFormattedDate(dateEnd));
 
+    $('#sellstartSumm').val(getFormattedDate(dateStart));
+    $('#sellendSumm').val(getFormattedDate(dateEnd));
 
     function countSales() {
         var s = new Date($('#salesstart').val()).getTime();
@@ -64,6 +74,24 @@
             $('#sellChart').empty();
             var ctx = document.getElementById("sellChart");
             drawChart(labels, data, "Куплено", ctx);
+        });
+    }
+
+    function countSellsSumm() {
+        var s = new Date($('#sellstartSumm').val()).getTime();
+        var e = new Date($('#sellendSumm').val()).getTime();
+        Controller.get('/rest/report/count/sellers?start=' + s + "&end=" + e, function (e) {
+            console.log(e);
+            var labels = [];
+            var data = [];
+            for (var i = 0; i < e.length; i++) {
+                labels.push(e[i][0]);
+                data.push(e[i][3]);
+            }
+            console.log(labels);
+            $('#sellChartSumm').empty();
+            var ctx = document.getElementById("sellChartSumm");
+            drawChart(labels, data, "Сумма", ctx);
         });
     }
 

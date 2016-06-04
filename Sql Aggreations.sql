@@ -17,11 +17,11 @@
   ORDER BY Count DESC;
 
 -- Самый активный покупатель
-  SELECT s.fio as id, s.phone, COUNT(s.phone) AS Count
+  SELECT s.fio as id, s.phone, COUNT(s.phone) AS Count, SUM(s.cost) AS SUMM
   FROM SaleProduct s
   where date BETWEEN 146611080000 AND 1460754000000
   GROUP BY s.phone, fio
-  ORDER BY Count DESC;
+  ORDER BY SUMM DESC;
 
 
 

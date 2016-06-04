@@ -126,6 +126,7 @@ function getFormattedDate(date) {
     return year + '-' + month + '-' + day;
 }
 function drawChart(labels, data, label, ctx) {
+    Chart.defaults.global.maintainAspectRatio = false;
     var myChart = new Chart(ctx, {
         type: 'bar',
         data: {

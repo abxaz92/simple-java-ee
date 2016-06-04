@@ -49,11 +49,11 @@ public class ReportService {
     }
 
     public Object countSellers(Long start, Long end) {
-        Query query = em.createNativeQuery("  SELECT s.fio as id, s.phone, COUNT(s.phone) AS Count\n" +
+        Query query = em.createNativeQuery("  SELECT s.fio as id, s.phone, COUNT(s.phone) AS Count, SUM(s.cost) AS SUMM \n" +
                 "  FROM SaleProduct s\n" +
                 "  where date BETWEEN :start AND :end \n" +
                 "  GROUP BY s.phone, fio\n" +
-                "  ORDER BY Count DESC;");
+                "  ORDER BY SUMM DESC;");
         query.setParameter("start", start);
         query.setParameter("end", end);
         return query.getResultList();
