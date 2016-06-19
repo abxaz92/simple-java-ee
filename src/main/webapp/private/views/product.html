@@ -15,11 +15,11 @@
         </div>
         <div><label>Количество</label> <input type="text" id="amount"/></div>
         <div><label>Стоимость</label> <input type="text" id="cost"/></div>
-        <div><label>Изображение</label> <input type="text" id="image"/></div>
-        <div><label>Описание</label> <input type="text" id="description"/></div>
         <div><label>Производитель</label>
             <div id="vendor" style="width: 150px;float: right;height: 25px;margin: 0px 7% 0px 1px;"/>
         </div>
+        <div style="border: solid;border-radius: 11px;border-width: 0.1px;border-color: #ccc; padding: 5px"><label>Описание</label>
+            <textarea rows="5" cols="35" name="text" id="description"></textarea></div>
         <div class="image">
             <label>
                 <input id="sortpicture" type="file" name="sortpic"/>
@@ -79,8 +79,6 @@
         $('#name').jqxInput({height: 25, width: 150, minLength: 1});
         $('#amount').jqxInput({height: 25, width: 150, minLength: 1});
         $('#cost').jqxInput({height: 25, width: 150, minLength: 1});
-        $('#image').jqxInput({height: 25, width: 150, minLength: 1});
-        $('#description').jqxInput({height: 25, width: 150, minLength: 1});
 
         $("#category").jqxDropDownList({
             selectedIndex: 0,
@@ -129,16 +127,15 @@
             });
         })
 
-        $("#window").jqxWindow({width: 370, height: 430, isModal: true, autoOpen: false});
+        $("#window").jqxWindow({width: 370, height: 510, isModal: true, autoOpen: false});
         $("#window").on('close', function () {
             $('#name').jqxInput("clear");
             $('#amount').jqxInput("clear");
             $('#cost').jqxInput("clear");
-            $('#image').jqxInput("clear");
-            $('#description').jqxInput("clear");
+            $('#description').val('');
             $('#sortpicture').val("");
             $('#id').val("");
-            $('#blah').attr("src", "")
+            $('#blah').attr("src", "");
         });
 
         $("#save").jqxButton({width: '90px', height: '30'});
@@ -150,29 +147,39 @@
                 category: {id: $('#category').val()},
                 amount: $('#amount').val(),
                 cost: $('#cost').val(),
-                image: $('#image').val(),
                 description: $('#description').val(),
                 vendor: {id: $('#vendor').val()}
             };
-            Controller.post("/rest/product", obj, function (res) {
-                var file_data = $('#sortpicture').prop('files')[0];
-                var form_data = new FormData();
-                form_data.append('file', file_data);
-                $.ajax({
-                    url: host + '/rest/image/' + res.id,
-                    dataType: 'text',
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    data: form_data,
-                    type: 'post',
-                    success: function (php_script_response) {
-                    }
+            var id = $('#id').val();
+            if (id && id.length > 0) {
+                Controller.put("/rest/product/" + id, obj, function (res) {
+                    uploadImage(id);
                 });
-                $('#jqxgrid').jqxGrid('updatebounddata');
-                $("#window").jqxWindow("close");
-            });
+            } else {
+                Controller.post("/rest/product", obj, function (res) {
+                    uploadImage(res.id);
+                });
+            }
+
         })
+        function uploadImage(id) {
+            var file_data = $('#sortpicture').prop('files')[0];
+            var form_data = new FormData();
+            form_data.append('file', file_data);
+            $.ajax({
+                url: host + '/rest/image/' + id,
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: form_data,
+                type: 'post',
+                success: function (php_script_response) {
+                }
+            });
+            $('#jqxgrid').jqxGrid('updatebounddata');
+            $("#window").jqxWindow("close");
+        }
 
         $("#cancel").jqxButton({width: '90px', height: '30'});
         $("#cancel").on('click', function () {
@@ -187,12 +194,10 @@
                 $('#name').jqxInput('val', !data.name ? "" : data.name);
                 $('#amount').jqxInput('val', !data.amount ? "" : data.amount);
                 $('#cost').jqxInput('val', !data.cost ? "" : data.cost);
-                $('#image').jqxInput('val', !data.image ? "" : data.image);
-                $('#description').jqxInput('val', !data.description ? "" : data.description);
+                $('#description').val(!data.description ? "" : data.description);
                 $('#vendor').jqxInput('val', !data.vendor ? "" : data.vendor);
-                $('#sortpicture').jqxInput('val', !data.sortpicture ? "" : data.sortpicture);
                 $('#id').jqxInput('val', !data.id ? "" : data.id);
-                $('#blah').jqxInput('val', !data.blah ? "" : data.blah);
+                $('#blah').attr('src', host + '/rest/image/' + data.image);
                 $('#category').jqxDropDownList('selectItem', $('#category').jqxDropDownList('getItemByValue', data.category.id));
                 $('#vendor').jqxDropDownList('selectItem', $('#vendor').jqxDropDownList('getItemByValue', data.vendor.id));
             });

@@ -51,7 +51,7 @@ body {
     margin: 0px;
 }
 
-textarea {
+.form textarea {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
@@ -60,6 +60,7 @@ textarea {
     font-size: 11pt;
     width: 335px;
     height: 120px;
+    margin: auto;
 }
 
 .cp {
