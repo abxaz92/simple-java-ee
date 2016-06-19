@@ -1,85 +1,35 @@
-<meta name="fragment" content="!">
-<img class="spsr" src="../resources/img/spsr.jpg">
-
-<div class="form">
-	<h3 style="margin-left: 10px;">Обратная связь</h3>
-	<div class="inp_content">
-		<input id="name" placeholder="Имя" class="input" type="text"/>
-		<input id="email" placeholder="Email" class="input" type="text"/>
-		<input id="subject" placeholder="Тема" class="input" type="text"/>
-	</div>
-	<div class="area">
-		<textarea name="comment" id="comment" placeholder="Сообщение..." cols="40" rows="8"></textarea>
-	</div>
-	<button id="send">Отправить</button>
+<div style="width: 600px; margin: auto;">
+    <h3>Заявка на ремонт</h3>
+    <div class="form">
+        <div><label>Почта</label> <input id="email" placeholder="Email" class="input" type="text"/></div>
+        <div><label>Телефон</label> <input id="phone" placeholder="Телефон" class="input" type="text"/></div>
+        <div>
+            <label>Описание</label>
+        <textarea name="comment" id="description" placeholder="Описание неисправности"
+                  cols="40" rows="8"></textarea>
+        </div>
+    </div>
+    <div class="toolbar">
+        <span>
+            <button id="send" onClick='send()' style="margin-top: 60px;margin-left: 200px;" class="btn">Отправить
+            </button>
+        </span>
+    </div>
 </div>
 <script>
-
-$('#send').bind('click', function(){
-	var html = prepare();
-		html ? sendEmail(html) : alert("Не все поля заполнены");
-});
-
-function prepare(){
-	var name = $("#name").val();
-	var email = $("#email").val();
-	var subject = $("#subject").val();
-	var comment = $("#comment").val();
-	if ( name!="" && subject!="" && email!="" && comment!='') {
-		return '<table class="inln" style="margin-left: 100px; margin-top: 20px;">'
-				+'<tbody>'
-				+'	<tr>'
-				+'		<td style="width:100px" >Имя</td>'
-				+'		<td>'+name+'</td>'
-				+'	</tr>'
-				+'	<tr>'
-				+'		<td>Email</td>'
-				+'		<td>'+email+'</td>'
-				+'	</tr>'
-				+'	<tr>'
-				+'		<td>Тема</td>'
-				+'		<td>'+subject+'</td>'
-				+'	</tr>'
-				+'</tbody>'
-			+'</table>'
-			+'<p>'+$("#comment").val()+'</p>';
-	} else return null;
-}
-function sendEmail(html){
-	$.ajax({
-	  type: "POST",
-	  url: "https://mandrillapp.com/api/1.0/messages/send.json",
-	  data: {
-	    key: 'Us13IYO1dIOKeAbw7pstvg',
-	    message: {
-	      from_email: 'chaava01@gmail.com',
-	      to: [
-	          {
-	            email: 'chdavi@ya.ru',
-	            name: 'RECIPIENT NAME (OPTIONAL)',
-	            type: 'to'
-	          }
-	        ],
-	      autotext: 'true',
-	      subject: 'Заявка',
-	      html:  html
-	    }
-	  }
-	 }).done(function(response) {
-	   console.log(response); // if you're into that sorta thing
-	   if(response && response[0].status == "sent"){
-	   		alert('Отправлено');
-	   		location.reload(false)
-
-	   } else {
-	   		$('#content').empty();
-	   		$('#content').append("<h1 class='cp succ' id='home'>Возникли неполадки</h1>");
-	   }
-	
-	$('#home').click(function(){
-		window.location = '/';
-	});
-
-	 });
-}	
+    function send() {
+        var isAccepted = confirm("Отправить запрос на сервер?");
+        if (isAccepted) {
+            var obj = {
+                phone: $('#phone').val(),
+                email: $('#email').val(),
+                description: $('#description').val()
+            };
+            Controller.post("/rest/orders/", obj, function (e) {
+                console.log(e);
+                alert("Заявка оформлена");
+                window.location.href = "/";
+            });
+        }
+    }
 </script>
