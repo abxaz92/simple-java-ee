@@ -36,8 +36,8 @@ public class OrderService extends AbstractDAO<Orders> {
     @Override
     public void deleteById(Long id) throws Exception {
         Orders order = findById(id);
-        /*order.setDone(true);
-        update(order);*/
+        order.setDone(true);
+        update(order);
         MimeMessage m = new MimeMessage(mailSession);
         Address from = new InternetAddress("fraev.artur@inbox.ru");
         Address[] to = new InternetAddress[]{new InternetAddress(order.getEmail())};
