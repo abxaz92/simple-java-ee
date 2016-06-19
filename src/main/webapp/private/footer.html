@@ -7,6 +7,10 @@
 
     var dateEnd = dateStart * 2;
     Controller.get('/rest/report/summ?start=' + dateStart + "&end=" + dateEnd, function (e) {
-        $('#summ').text("Прибыль : " + e || 0);
+        if (e && e != undefined) {
+            $('#summ').text("Прибыль : " + e);
+        } else {
+            $('#summ').text("Прибыль : " + 0);
+        }
     });
 </script>
