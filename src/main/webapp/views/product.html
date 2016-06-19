@@ -20,6 +20,11 @@
         $("#catalog").empty();
         for (var i in e) {
             e[i].image = host + "/rest/image/" + e[i].image;
+            try {
+                e[i].cost = e[i].cost + e[i].cost / 100 * e[i].category.markup;
+            }catch (e){
+                console.error(e);
+            }
         }
         drawContent(e, "productTmpl", "catalog");
     }
@@ -61,4 +66,5 @@
 		</div>
 		<button class="buy pos buybtn" onclick="currPhone=this.parentNode; window.location.href = '#!' + 'views/buy?product=${id}'">Купить</button>
 	</div>
+
 </script>
