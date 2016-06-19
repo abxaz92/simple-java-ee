@@ -15,6 +15,7 @@ public class Orders implements EntityInterface {
     private String phone;
     private String email;
     private String description;
+    private boolean done;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -58,5 +59,13 @@ public class Orders implements EntityInterface {
     @Override
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isDone() {
+        return done;
+    }
+
+    public void setDone(boolean done) {
+        this.done = done;
     }
 }

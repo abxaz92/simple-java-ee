@@ -1,5 +1,4 @@
 <div>
-    <span><input type="button" value="+" id="add"/></span>
     <span><input type="button" value="-" id="remove"/></span>
 </div>
 
@@ -16,10 +15,7 @@
             <textarea rows="5" cols="35" name="text" id="description"></textarea></div>
         <div class="toolbar">
             <span>
-                <input type="button" value="Сохранить" id='ordsave'/>
-            </span>
-            <span>
-                <input type="button" value="Отменить" id='ordcancel'/>
+                <input type="button" value="Закрыть" id='ordcancel'/>
             </span>
         </div>
     </div>
@@ -36,11 +32,6 @@
         $('#phone').jqxInput({height: 25, width: 150, minLength: 1});
         $('#email').jqxInput({height: 25, width: 150, minLength: 1});
 
-        $("#add").jqxButton({width: '40', height: '30'});
-        $("#add").on('click', function () {
-            $("#ordwindow").jqxWindow("open");
-        })
-
         $("#remove").jqxButton({width: '40', height: '30'});
         $("#remove").on('click', function () {
             var row = $('#jqxgrid').jqxGrid('getrowdata', $('#jqxgrid').jqxGrid('getselectedrowindex'));
@@ -55,18 +46,6 @@
             $('#email').jqxInput("clear");
             $('#description').val("");
         });
-        $("#ordsave").jqxButton({width: '90px', height: '30'});
-        $("#ordsave").on('click', function () {
-            var obj = {
-                phone: $('#phone').val(),
-                email: $('#email').val(),
-                description: $('#description').val(),
-            };
-            Controller.post("/rest/orders", obj, function () {
-                $('#jqxgrid').jqxGrid('updatebounddata');
-                $("#ordwindow").jqxWindow("close");
-            });
-        })
         $("#ordcancel").jqxButton({width: '90px', height: '30'});
         $("#ordcancel").on('click', function () {
             $("#ordwindow").jqxWindow("close");
@@ -77,7 +56,8 @@
             datafields: [
                 {name: 'id', type: 'int'},
                 {name: 'phone', type: 'string'},
-                {name: 'email', type: 'string'}
+                {name: 'email', type: 'string'},
+                {name: 'done', type: 'bool'}
             ],
             id: 'id',
             url: url
@@ -116,6 +96,14 @@
                     cellsalign: 'left',
                     align: 'left',
                     width: 200
+                },
+                {
+                    text: 'Done',
+                    datafield: 'done',
+                    cellsalign: 'left',
+                    align: 'left',
+                    columntype: 'checkbox',
+                    width: 50
                 }
             ]
         });

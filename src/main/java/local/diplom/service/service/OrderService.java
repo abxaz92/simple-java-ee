@@ -22,4 +22,11 @@ public class OrderService extends AbstractDAO<Orders> {
         TypedQuery<Orders> namedQuery = em.createNamedQuery("Orders.getAll", Orders.class);
         return namedQuery.getResultList();
     }
+
+    @Override
+    public void deleteById(Long id) throws Exception {
+        Orders order = findById(id);
+        order.setDone(true);
+        update(order);
+    }
 }
