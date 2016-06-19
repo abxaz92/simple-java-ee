@@ -8,13 +8,14 @@ import javax.persistence.*;
  * Created by david on 19.06.16.
  */
 @Entity
-@NamedQuery(name = "Orders.getAll", query = "SELECT c from Orders c")
+@NamedQuery(name = "Orders.getAll", query = "SELECT c from Orders c ORDER BY date DESC")
 public class Orders implements EntityInterface {
     private Long id;
     private String name;
     private String phone;
     private String email;
     private String description;
+    private Long date;
     private boolean done;
 
     @Id
@@ -67,5 +68,13 @@ public class Orders implements EntityInterface {
 
     public void setDone(boolean done) {
         this.done = done;
+    }
+
+    public Long getDate() {
+        return date;
+    }
+
+    public void setDate(Long date) {
+        this.date = date;
     }
 }

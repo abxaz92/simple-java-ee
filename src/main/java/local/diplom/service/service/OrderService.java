@@ -34,6 +34,12 @@ public class OrderService extends AbstractDAO<Orders> {
     }
 
     @Override
+    public void insert(Orders entity) throws Exception {
+        entity.setDate(System.currentTimeMillis());
+        super.insert(entity);
+    }
+
+    @Override
     public void deleteById(Long id) throws Exception {
         Orders order = findById(id);
         order.setDone(true);
