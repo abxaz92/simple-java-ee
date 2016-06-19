@@ -4,9 +4,13 @@
 </div>
 
 <div id="catwindow" class="form">
-    <div>Продукт</div>
+    <div>Категория</div>
     <div>
+        <div>
+            <input type="hidden" id="id"/>
+        </div>
         <div><label>Название</label> <input type="text" id="name"/></div>
+        <div><label>Наценка</label> <input type="text" id="markup"/></div>
         <div class="toolbar">
             <span>
                 <input type="button" value="Сохранить" id='catsave'/>
@@ -28,6 +32,7 @@
         var url = host + "/rest/productcategory";
 
         $('#name').jqxInput({height: 25, width: 150, minLength: 1});
+        $('#markup').jqxInput({height: 25, width: 150, minLength: 1});
 
         $("#add").jqxButton({width: '40', height: '30'});
         $("#add").on('click', function () {
@@ -45,16 +50,27 @@
         $("#catwindow").jqxWindow({width: 370, height: 390, isModal: true, autoOpen: false});
         $("#catwindow").on('close', function () {
             $('#name').jqxInput("clear");
+            $('#markup').jqxInput("clear");
+            $('#id').val("");
         });
         $("#catsave").jqxButton({width: '90px', height: '30'});
         $("#catsave").on('click', function () {
             var obj = {
-                name: $('#name').val()
+                name: $('#name').val(),
+                markup: $('#markup').val()
             };
-            Controller.post("/rest/productcategory", obj, function () {
-                $('#jqxgrid').jqxGrid('updatebounddata');
-                $("#catwindow").jqxWindow("close");
-            });
+            var id = $('#id').val();
+            if (id && id.length > 0) {
+                Controller.put("/rest/productcategory/" + id, obj, function (res) {
+                    $('#jqxgrid').jqxGrid('updatebounddata');
+                    $("#catwindow").jqxWindow("close");
+                });
+            } else {
+                Controller.post("/rest/productcategory", obj, function () {
+                    $('#jqxgrid').jqxGrid('updatebounddata');
+                    $("#catwindow").jqxWindow("close");
+                });
+            }
         })
         $("#catcancel").jqxButton({width: '90px', height: '30'});
         $("#catcancel").on('click', function () {
@@ -65,7 +81,8 @@
             datatype: "json",
             datafields: [
                 {name: 'id', type: 'int'},
-                {name: 'name', type: 'string'}
+                {name: 'name', type: 'string'},
+                {name: 'markup', type: 'string'}
             ],
             id: 'id',
             url: url
@@ -97,8 +114,27 @@
                     cellsalign: 'left',
                     align: 'left',
                     width: 200
+                },
+                {
+                    text: 'Наценка',
+                    datafield: 'markup',
+                    cellsalign: 'left',
+                    align: 'left',
+                    width: 100
                 }
             ]
+        });
+
+        $('#jqxgrid').on('rowdoubleclick', function (event) {
+            $("#catwindow").jqxWindow("open");
+            var row = $('#jqxgrid').jqxGrid('getrowdata', event.args.rowindex);
+            Controller.get("/rest/productcategory/" + row.id, function (data) {
+                $("#id").val(data.id)
+                $('#name').jqxInput('val', !data.name ? "" : data.name);
+                $('#markup').jqxInput('val', !data.markup ? "" : data.markup);
+            });
+
+
         });
     }());
     function unload() {
