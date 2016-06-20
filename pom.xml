@@ -118,5 +118,22 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>Pre</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <configuration>
+                            <hostname>pre.irtaxi.ru</hostname>
+                            <username>taxi</username>
+                            <password>Q4862513</password>
+                            <name>ROOT.war</name>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 </project>
